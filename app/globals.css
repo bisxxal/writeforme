@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+ 
+ 
+body {
+  background: #181A24;
+  color: #e6eaf3;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card{
+  background: #232439;;
+}
+.bordercolor{
+  @apply border border-[#d3d3d346];
+}
+
+.boxanimation {
+  animation: boxanimation 0.2s ease-in-out ;
+}
+@keyframes boxanimation {
+0% {
+    transform: translateY(-10px); 
+    scale: 0.9;
+  }
+  100% {
+    transform: translateY(0); 
+    scale: 1;
+  }
+}
+
+.popupOpen{
+  animation: popupOpen 0.8s ease-in-out ;
+
+}
+
+@keyframes popupOpen {
+  0% {
+    transform: translateY(-50px);
+    /* opacity: 0; */
+    transform: translate3d(0, -50px, 0);
+    scale: 0.9;
+  }
+  50% {
+      transform: translateY(20px);
+      /* opacity: 0.5; */
+      transform: translate3d(0, 20px, 0);
+      scale: 1.05;
+    }
+  100% {
+    transform: translateY(0);
+    /* opacity: 1; */
+    transform: translate3d(0, 0, 0);
+    scale: 1;
+  }
+}
