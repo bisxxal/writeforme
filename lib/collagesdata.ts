@@ -1,14 +1,4 @@
 export const collageData = [
-     
-    {
-        "ALL UNIVERSITIES": "Aishe Code",
-        "name": "Name",
-        "state": "State",
-        "district": "District",
-        "name_3": "Website",
-        "": "Year Of Establishment",
-        "name_5": "Location"
-    },
     {
         "ALL UNIVERSITIES": "U-1062",
         "name": "AIPH UNIVERSITY",
@@ -424,19 +414,7 @@ export const collageData = [
         "name_5": "Urban"
     },
 
-    
-    {
-        "ALL COLLEGE": "Aishe Code",
-        "name": "Name",
-        "state": "State",
-        "district": "District",
-        "name_3": "Website",
-        "name_5": "Location",
-        "name_6": "College Type",
-        "name_7": "Manegement",
-        "name_8": "University Name",
-        "name_9": "University Type"
-    },
+     // newly added colleges
     {
         "ALL COLLEGE": "C-56865",
         "name": "Janaki Madhusudan Womens Degree College, Mandhatapatna",

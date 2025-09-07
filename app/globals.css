@@ -18,8 +18,43 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+ 
+.buttonbg2{
+  @apply bg-gradient-to-t text-white from-[#7595f9] font-medium to-[#5154f2];
+  box-shadow: inset 0px 6px 20px 2px #00000030 , 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) ;
+}
+.buttongreen{
+  @apply bg-gradient-to-br text-white from-[#2db02a] font-medium to-[#004c12];
+}
+.buttonred{
+  @apply bg-gradient-to-b shadow-xl text-white from-[#de2626] font-medium to-[#840404];
+}
+.buttonpink{
+  @apply bg-gradient-to-b text-white from-[#fc3dcfba] font-medium to-[#ff71d73d];
+}
+ .pulseShimmer{
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2), inset 0 4px 20px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px) saturate(180%);
+  animation:   pulseShimmer 10s infinite linear; ;
+ }
+  @keyframes pulseShimmer {
+    0% {
+      background-position: -1000px;
+    }
+    100% {
+      background-position: 1000px;
+    } }
+
+    .scrollbar::-webkit-scrollbar {
+         display: none;
+       }
+
+       
 .card{
   background: #232439;;
+}
+input{
+  @apply border-none outline-none
 }
 .bordercolor{
   @apply border border-[#d3d3d346];
@@ -27,6 +62,10 @@ body {
 
 .boxanimation {
   animation: boxanimation 0.2s ease-in-out ;
+}
+.buttonbg{
+  color: black;
+  background-color: #FFF83F;
 }
 @keyframes boxanimation {
 0% {

@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { LogOut, Pencil } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -45,8 +46,6 @@ const ProfilePage = () => {
 
   }, [showCollege])
 
-
-
   return (
     <div className=' w-full relative px-10 flex flex-col gap-5'>
 
@@ -55,9 +54,10 @@ const ProfilePage = () => {
       </div>
 
       <div className='mt-14 card border bordercolor rounded-2xl p-5 center flex-col gap-3 '>
-        <div>
-          {data?.user?.image && <Image loading='lazy' src={data?.user?.image!} alt="User Avatar" width={40} height={40} className=' max-md: w-24  rounded-full' />}
-        </div>
+        {data?.user?.image && <div className=' relative '>
+          <Image loading='lazy' src={data?.user?.image!} alt="User Avatar" width={40} height={40} className=' max-md: w-24  rounded-full' />
+          <Link href={`/edit`} className=' absolute right-0 bottom-0 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil size={20} /> </Link>
+        </div>}
         <h1>{data?.user?.name}</h1>
       </div>
 

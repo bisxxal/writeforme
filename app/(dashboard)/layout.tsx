@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <main className=" w-full">
       <Navbar />
-      <div className="mt-[100px] relative w-full min-h-screen ">
+      <div className="mt-[80px] relative w-full min-h-screen ">
         {children}
       </div>
       <BottomBar />

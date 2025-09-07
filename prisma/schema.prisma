@@ -12,9 +12,12 @@ model User {
   id        String    @id @default(cuid())
   name      String
   email     String    @unique
-  
-  role      Role      @default(USER) // For admin/moderator later if needed
-  mode      UserMode  @default(BUYER) // Current active mode (Buyer/Writer)
+
+  isSellerModeActive   Boolean @default(false)
+  description          String?
+  showsCasePhotos String[]  @default([])
+  pagePrice   Float?
+  digramsPrice Float?
 
   emailVerified DateTime?
   image         String?
@@ -97,16 +100,6 @@ model Transaction {
   user        User     @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
-enum UserMode {
-  BUYER
-  WRITER
 }
 
 enum AssignmentStatus {
