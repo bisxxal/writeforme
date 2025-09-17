@@ -2,7 +2,7 @@
 import { userProfile } from '@/actions/user.action'
 import CollageName from '@/components/collageName'
 import { useQuery } from '@tanstack/react-query'
-import { LogOut, Pencil } from 'lucide-react'
+import { LogOut, Pencil, X } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -47,16 +47,22 @@ const ProfilePage = () => {
   }, [showCollege])
 
   return (
-    <div className=' w-full relative px-10 flex flex-col gap-5'>
+    <div className=' w-full min-h-screen relative px-10  max-md:px-3 flex flex-col gap-5'>
 
-      <div className=' absolute top-5 right-5'>
+      {showCollege && <div className='pt-[70px] fixed top-0  min-h-screen z-10 left-0 w-full bg-[#00000047] backdrop-blur-xl flex justify-center '>
+
+        <p onClick={()=>setShowCollege(false)} className=' text-xl absolute top-24 right-10 '><X/></p>
+        <CollageName showCollege={showCollege} setShowCollege={setShowCollege} />
+      </div>}
+
+      <div className=' absolute max-md:top-0 top-2 backdrop-blur-[4px] bordercolor p-2 rounded-full px-3 right-5'>
         <button onClick={() => signOut()}><LogOut /></button>
       </div>
 
       <div className='mt-14 card border bordercolor rounded-2xl p-5 center flex-col gap-3 '>
         {data?.user?.image && <div className=' relative '>
           <Image loading='lazy' src={data?.user?.image!} alt="User Avatar" width={40} height={40} className=' max-md: w-24  rounded-full' />
-          <Link href={`/edit`} className=' absolute right-0 bottom-0 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil size={20} /> </Link>
+        { buyerMode  && <Link href={`/edit`} className=' absolute right-0 bottom-0 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil size={20} /> </Link>}
         </div>}
         <h1>{data?.user?.name}</h1>
       </div>
@@ -103,3 +109,4 @@ const ProfilePage = () => {
 }
 
 export default ProfilePage
+

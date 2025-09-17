@@ -32,7 +32,7 @@ const EditPage = () => {
 
     const createSellerProfile = useMutation({
         mutationFn: async (formData: FormData) => {
-            return await createWritterProfile(formData);
+            return await createWritterProfile( 'writer' , formData);
         },
         onSuccess: (data) => {
             if (data.status === 200) {
@@ -71,7 +71,7 @@ const EditPage = () => {
                 </div>
 
                 <div className=' w-full center'>
-                    <button type='submit' className=' buttonbg mx-auto rounded-2xl px-4 mt-5 py-2'>Active Profile</button>
+                    <button type='submit' className=' buttonbg mx-auto rounded-2xl px-4 mt-5 py-2'>{data?.user?.isSellerModeActive === false ? 'Active Profile' :'update'}</button>
                 </div>
 
             </form>

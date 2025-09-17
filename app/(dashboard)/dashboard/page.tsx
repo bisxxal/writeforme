@@ -33,14 +33,11 @@ const Dashboard = () => {
 
   return (
     <div>
-      {
-        // !collageName && !collageLoading && <CollageName />  // retake in profile
-      }
-
+      
       {
         modeLoading ? <div className=' w-full min-h-screen center'>
           <Loader className=' animate-spin' />
-        </div> : buyerMode ? <BuyerMode isLoading={isLoading} data={data} /> : <SellerMode isLoading={isLoading} data={data}/>}
+        </div> : buyerMode ? <BuyerMode /> : <SellerMode isLoading={isLoading} data={data}/>}
 
     </div>
   )

@@ -42,7 +42,7 @@ const SellerMode = ({data, isLoading}) => {
             <p>Pending Assignments</p>
             <p className=' text-3xl '>0</p>
           </div>
-          <Link href={`/`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
+          <Link href={`/task`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
         </div>
 
         <p>Earnings</p>

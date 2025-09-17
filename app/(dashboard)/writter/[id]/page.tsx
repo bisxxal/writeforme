@@ -1,20 +1,38 @@
 'use client'
+import { createChartparticipent } from '@/actions/chat.action';
 import { singleWritter } from '@/actions/user.action';
 import Loading from '@/components/ui/loading';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { toastSuccess } from '@/lib/toast';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 
 const WritterPersonalPage = () => {
   const params = useParams<{ id: string }>();
   const id = params?.id || '';
-  
+  const router = useRouter()
   const { data, isLoading } = useQuery({
     queryKey: ['singleWritter', id],
     queryFn: async () => {
       return await singleWritter(id);
     },
   });
+ 
+ const createChatMutation =  useMutation({
+    
+    mutationFn: async (receiverId: string) => {
+     return await createChartparticipent(receiverId);
+    },
+    onSuccess: (data) => {
+      // toastSuccess('Chat created successfully');
+      router.push(`/chat/${data?.chatId}`);
+      console.log('Chat created successfully:', data);
+    },
+    onError: (error) => {
+      // Handle error (e.g., show an error message)
+      console.error('Error creating chat:', error);
+    },
+ })
 
   if (isLoading) {
     <div className=' w-full min-h-screen  bg-red-50 px-10 max-md:px-5'>
@@ -72,7 +90,7 @@ const WritterPersonalPage = () => {
         </div>
 
         <div className=' w-full center my-5'>
-          <button className=' buttonbg w-full rounded-2xl mt-5 py-2'>Message Writter</button>
+          <button onClick={()=> createChatMutation.mutate(data?.writters?.id)  } className=' buttonbg w-full rounded-2xl mt-5 py-2'>Message Writter</button>
         </div>
 
       </div>

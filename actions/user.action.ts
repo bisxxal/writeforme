@@ -13,7 +13,7 @@ export const userProfile = async () => {
 
         const user = await prisma.user.findUnique({
             where: {
-                email: session.user?.email || ''
+                id: session.user?.id || ''
             },
             select: {
                 id: true,
@@ -40,19 +40,20 @@ export const userProfile = async () => {
         return { status: 500, message: 'Something went wrong' }
     }
 }
-export const createWritterProfile = async (formData: FormData) => {
+export const createWritterProfile = async (type:'col'|'writer' , formData: FormData ) => {
     try {
         const session = await getServerSession(authOptions)
         if (!session) {
             return { status: 400, message: "User not authenticated" };
         }
-        const description = formData.get('description') as string;
+      if(type==='writer'){
+          const description = formData.get('description') as string;
         const pagePrice = formData.get('page') as string;
         const digramsPrice = formData.get('digram') as string;
 
         const updatedUser = await prisma.user.update({
             where: {
-                email: session.user?.email || ''
+                id: session.user?.id || ''
             },
             data: {
                 isSellerModeActive: true,
@@ -65,6 +66,26 @@ export const createWritterProfile = async (formData: FormData) => {
             return { status: 404, message: "User not found" };
         }
         return { status: 200, message: "Writter profile created successfully" };
+      }
+    if(type==='col'){
+        const collegeName = formData.get('collegeName') as string;
+        const district = formData.get('district') as string;
+        
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: session.user?.id || ''
+            },
+            data: {
+                collegeName,
+                district
+            }
+        })
+        console.log(updatedUser)
+         if (!updatedUser) {
+            return { status: 404, message: "User not found" };
+        }
+        return { status: 200, message: "Writter profile created successfully" }; 
+      }
 
     } catch (error) {
         console.log(error)
@@ -129,21 +150,28 @@ export const deletePhotos = async (photoUrls: string[]) => {
     }
 }
 
-export const allWritters = async () => {
+export const allWritters = async (district:string) => {
     try {
+         const session = await getServerSession(authOptions)
+        if (!session) {
+            return { status: 400, message: "User not authenticated" };
+        }
         const writters = await prisma.user.findMany({
             where: {
-                isSellerModeActive: true
+                id: { not: session.user?.id || '' },
+                isSellerModeActive: true,
+                district
             },
             select: {
                 id: true,
                 name: true,
                 email: true,
                 image: true,
+                showsCasePhotos: true,
                 description: true,
                 pagePrice: true,
-                digramsPrice: true,
-                showsCasePhotos: true,
+                collegeName: true,
+                district: true,
             }
         })
 
