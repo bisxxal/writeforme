@@ -3,8 +3,7 @@ import { createWritterProfile } from "@/actions/user.action";
 import { collageData } from "@/lib/collagesdata";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
-import Link from "next/link";
+import { Loader, X } from "lucide-react";
 import { Dispatch, useEffect, useState } from "react";
 
 // Debounce  function
@@ -60,7 +59,7 @@ const CollageName = ({ setShowCollege, showCollege }: { setShowCollege: Dispatch
         const formData = new FormData();
         formData.append('collegeName', searchTerm.name);
         formData.append('district', searchTerm.district);
-        
+
         localStorage.setItem('collageName', searchTerm.name);
         localStorage.setItem('district', searchTerm.district);
 
@@ -84,35 +83,33 @@ const CollageName = ({ setShowCollege, showCollege }: { setShowCollege: Dispatch
 
     })
 
-    console.log(searchTerm)
     return (
         <div className="flex flex-col items-center  p-4">
 
-
-            <div className="flex justify-between w-full max-w-md p-2 mb-6">
+            <div className="flex justify-between !gap-2 bg-[#ffffff27] rounded-xl border-gray-300  items-center max-w-full  p-2 mb-6">
                 <input
                     type="text"
                     placeholder="Search colleges by name, state, district..."
                     value={searchTerm.name}
                     onChange={(e) => setSearchTerm({ name: e.target.value, district: searchTerm.district })}
-                    className="w-[400px] max-md:w-[300px] p-2 border bg-[#ffffff27] border-gray-300 rounded-2xl"
+                    className="w-[400px] max-md:w-[300px] p-2   "
                 />
+                <p onClick={() => setShowCollege(false)} className=' text-xl'><X /></p>
             </div>
 
-            <div className="w-full max-w-md overflow-y-auto max-h-[500px] p-4 rounded  ">
+            <div className=" w-full overflow-y-auto max-h-[650px] rounded-xl  ">
                 {filteredColleges.length > 0 ? (
                     filteredColleges.map((college: any, index: number) => (
-                        <div key={index} onClick={() => onclickHandler(college.name, college.district)} className="p-2 mb-2 bordercolor rounded shadow-sm boxanimation card ">
+                        <div key={index} onClick={() => onclickHandler(college.name, college.district)} className="p-2 mb-2 bordercolor rounded-xl shadow-sm boxanimation card ">
                             <p className="font-semibold">{college.name}</p>
                             <p className="text-sm text-gray-400">District: {college.district}</p>
                         </div>
                     ))
-                ) : searchTerm.name  && (
+                ) : searchTerm.name && (
                     <p className="text-gray-500">No colleges found.</p>
                 )
-            }
-
-                <button onClick={(e) => onSumbitHandler(e)} disabled={ !searchTerm.name } hidden={ !searchTerm.name } className="center buttonbg w-full rounded-3xl py-2">{updateMUtation.isPending ? <Loader className="  animate-spin" /> : 'Sumbit'}</button>
+                }
+                <button onClick={(e) => onSumbitHandler(e)} disabled={!searchTerm.name || !searchTerm.district} hidden={!searchTerm.name || !searchTerm.district} className="center disabled:opac ity-0 buttonbg w-full rounded-3xl py-2">{updateMUtation.isPending ? <Loader className="  animate-spin" /> : 'Sumbit'}</button>
             </div>
         </div>
     );

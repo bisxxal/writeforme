@@ -104,6 +104,22 @@ input{
   }
 }
 
+.assignpopupOpen{
+  animation: assignpopupOpen 0.6s ease-in-out ;
+}
+
+@keyframes assignpopupOpen {
+  0% {
+    transform: translateY(100px);
+  }
+  50%{
+  transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .loading-animation {
   animation: fadeSlideDown 0.3s ease-out;
 }

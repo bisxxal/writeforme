@@ -23,7 +23,7 @@ const BuyerMode = () => {
   })
 
   return (
-    <div className='min-h-screen w-full px-20 max-md:5'>
+    <div className='min-h-screen w-full px-20  max-md:px-4'>
 
       <p className=' mt-5 font-bold text-3xl'>Find near by writters</p>
       {data && data?.writters && data?.writters?.length > 0 && <div className=' between mt-9 '>

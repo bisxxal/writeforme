@@ -99,7 +99,7 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
                 :
                 (
                   isLoading  ? <>
-                  <LoadingCom boxes={3} child=" !rounded-3xl w-full h-[100px] " parent=" !items-start !justify-between  !px-10 gap-5 flex-col " />
+                  <LoadingCom boxes={3} child=" !rounded-3xl w-full h-[100px] " parent=" !items-start !justify-between  gap-2 flex-col " />
                   </> :  <p className='text-center text-gray-500'>No Messages found</p>
                 )
             }

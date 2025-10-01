@@ -24,6 +24,7 @@ export const userProfile = async () => {
                 showsCasePhotos: true,
                 isSellerModeActive: true,
                 description: true,
+                collegeName : true,
                 pagePrice: true,
                 digramsPrice: true,
             }

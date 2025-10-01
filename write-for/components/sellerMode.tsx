@@ -4,7 +4,7 @@ import React from 'react'
 
 const SellerMode = ({data, isLoading}) => {
   return (
-    <div className=' w-full px-10 '>
+    <div className=' w-full px-10 max-md:px-4 pb-20 mt-20'>
 
       { !isLoading && data?.user?.isSellerModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
         <p>Complete your writter profile to startreceving assignment</p>

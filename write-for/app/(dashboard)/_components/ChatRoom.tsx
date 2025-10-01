@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import Back from '@/components/ui/back';
-// import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { demoMessages, dummyMessages, dummyUserId, formatDateLabel } from '@/lib/utils';
 import LoadingCom from '@/components/ui/loading';
@@ -11,6 +10,8 @@ import moment from 'moment';
 import { useSocket } from '@/hooks/useSocket';
 import { deleteSelectMessages } from '@/actions/chat.action';
 import { toastSuccess } from '@/lib/toast';
+import CreateTask from '@/components/createTask';
+import Image from 'next/image';
 
 type Message = {
   id: string;
@@ -39,6 +40,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
   const [newMessage, setNewMessage] = useState('');
   const [showPopUp, setShowPopUp] = useState(false);
   const [megSending, setMsgSending] = useState(false);
+  const [showAssignPopup , setShowAssignPopup] = useState(false);
 
   const url = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -216,7 +218,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
       }, 50);
     }
   }, [isLoading, data]);
- 
+
   return (
     <div className="flex relative top-1 -mt-6 flex-col h-fit   w-full  mx-auto px-4">
       <div className='fixed w-full h-[60px] z-[30] pr-4 bg-[#c2c2c240] backdrop-blur-[18px] top-0 left-0  !justify-between center shadow-xl '>
@@ -225,7 +227,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           {user && <>
 
             <div className=' flex gap-3 items-center pr-3 '>
-              <img className=' w-10 h-10 rounded-full ' src={user?.image} alt="" />
+              <Image height={50} width={50} className=' w-10 h-10 rounded-full ' src={user?.image} alt="" />
               <h1 className=' text-lg textbase font-semibold'>{user.name}</h1>
             </div>
             {
@@ -244,8 +246,9 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
               <p><CircleEllipsis className=' text-gray-500' size={20} /></p>
             </label>
             <input type="checkbox" hidden id="is" />
-            <div className='group-has-checked:flex hidden absolute  py-4 w-52 flex flex-col gap-2 border  text-white p-2 border-black/10 rounded-3xl bg-black/20 backdrop-blur-[10px] -left-[180px] '>
+            <div className='group-has-checked:flex hidden absolute  py-4 w-52 flex flex-col gap-2 border  text-white p-2 border-black/10 rounded-2xl bg-black/50 !backdrop-blur-[10px] -left-[180px] '>
               <h1 className=' pl-10 cursor-pointer border-b pb-2 border-black/10 ' onClick={() => setShowPopUp(!showPopUp)}>Clear all chat</h1>
+              <p className=' pl-10 cursor-pointer border-b pb-2 border-black/10 ' onClick={() => setShowAssignPopup(!showAssignPopup)}>Create assigenment</p>
             </div>
           </div>
         }
@@ -267,13 +270,13 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
         // showPopUp && <PopUpCom showPopUp={showPopUp} setShowPopUp={setShowPopUp} chatId={chatId} />
       }
       <div className='relative  bg-[url(https://images.unsplash.com/photo-1568222071880-a938edc32cc0?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover flex flex-col mt-[70px]  mx-auto max-w-2xl rounded-2xl max-md:border-none max-md:shadow-none border border-black/10 shadow-xl p-2  w-full max-md:h-[83vh] h-[80vh]'>
-      
+
         {isFetchingNextPage && (
           <div className="loading-animation center text-center text-sm text-gray-400">
             <Loader className='text-xl animate-spin ' />
           </div>
         )}
- 
+
         <div ref={scrollContainerRef} className=" w-full scrollbar overflow-y-auto space-y-3 rounded-2xl h-[70vh] max-md:h-[76vh] ">
           {Object.entries(groupedMessages).length !== 0 ? Object.entries(groupedMessages).map(([dateKey, msgs]) => (
             <div key={dateKey}>
@@ -282,24 +285,24 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
               </div>
 
               {msgs.map((msg) => {
-                const isSelected = selectedMessages.has(msg.id);
+                const isSelected = selectedMessages.has(msg?.id);
                 return (
                   <div
-                    key={msg.id}
-                    onMouseDown={() => handleLongPressStart(msg.id)}
+                    key={msg?.id}
+                    onMouseDown={() => handleLongPressStart(msg?.id)}
                     onMouseUp={handleLongPressEnd}
-                    onTouchStart={() => handleLongPressStart(msg.id)}
+                    onTouchStart={() => handleLongPressStart(msg?.id)}
                     onTouchEnd={handleLongPressEnd}
-                    onClick={() => handleMessageClick(msg.id)}
+                    onClick={() => handleMessageClick(msg?.id)}
                     className={`relative w-full mt-3 cursor-pointer flex flex-col text-base font-normal cursor-pointer`}>
 
                     {isSelected && <div className=' w-full rounded-lg bas buttonbg opacity-[0.4] z-[10] h-full top-0 left-0 absolute'></div>}
-                    <div className={` max-w-[80%] w-fit px-5 py-1.5 ${msg.senderId === currentUserId
+                    <div className={` max-w-[80%] w-fit px-5 py-1.5 ${msg?.senderId === currentUserId
                       ? 'bg-blue-60 buttonbg text-white rounded-b-2xl rounded-l-2xl ml-auto'
                       : 'bg-gray-10 backdrop-blur-[50px] bordercolor text-black/60 rounded-b-2xl rounded-r-2xl'}`}>
-                      <p className='max-w-[99%]'>{msg.content}</p>
+                      <p className='max-w-[99%]'>{msg?.content}</p>
                       <p className="text-xs opacity-70 text-right">
-                        {moment(msg.createdAt).format('LT')}
+                        {moment(msg?.createdAt).format('LT')}
                       </p>
                     </div>
 
@@ -314,7 +317,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
                 return (
                   <div
                     key={idx}
-                    className={`max-w-[80%] mt-3 w-fit    h-20  flex flex-col   ${msg.senderId === dummyUserId ? '  ml-auto ' : ' '}`}
+                    className={`max-w-[80%] mt-3 w-fit h-20  flex flex-col   ${msg.senderId === dummyUserId ? '  ml-auto ' : ' '}`}
                   >
                     <LoadingCom child={` rounded-xl max-md:h-10 border border-white/20 w-60 max-md:w-52`} boxes={1} parent=' w-10 h-full' />
                   </div>
@@ -333,12 +336,14 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           <div className='flex gap-2 w-full mb-4 py-2 scrollbar overflow-x-scroll '>
             {
               demoMessages.map((msg, index) => (
-                <p key={index} onClick={() => setNewMessage(msg)} className="w-full backdrop-blur-[40px]  cursor-pointer whitespace-nowrap h-fit px-2 py-1    sidebarbg text-black/60 rounded-2xl ">
+                <p key={index} onClick={() => setNewMessage(msg)} className="w-full bordercolor bg-[#00000012] backdrop-blur-[40px]  cursor-pointer whitespace-nowrap h-fit px-2 py-1    sidebarbg text-black/60 rounded-2xl ">
                   {msg}
                 </p>
               ))
             }
           </div>}
+
+     {showAssignPopup && <CreateTask buyerId={user?.id} setShowAssignPopup={setShowAssignPopup} />}
 
         <div className=" flex justify-between items-end gap-3  max-md:pr-[2px]  ">
 

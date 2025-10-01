@@ -4,14 +4,11 @@ import Link from "next/link";
 export default function Home() {
    
   return (
-  <div>
-
-    <h1>Hello Bishal</h1>
-    <p>Welcome back</p>
-    <Link href={`/sign-in`}>Get started</Link>
-
+  <div className=" center min-h-screen  w-full">
  
-
+    <p>Welcome back</p>
+    <Link className=" buttonbg rounded-full p-4" href={`/sign-in`}>Get started</Link>
+ 
   </div>
   );
 }

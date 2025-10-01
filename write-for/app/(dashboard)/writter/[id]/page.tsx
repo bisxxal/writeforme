@@ -1,9 +1,10 @@
 'use client'
-import { createChartparticipent } from '@/actions/chat.action';
+import { createChatParticipant } from '@/actions/chat.action';
 import { singleWritter } from '@/actions/user.action';
 import Loading from '@/components/ui/loading';
 import { toastSuccess } from '@/lib/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { Loader } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 
@@ -21,7 +22,7 @@ const WritterPersonalPage = () => {
  const createChatMutation =  useMutation({
     
     mutationFn: async (receiverId: string) => {
-     return await createChartparticipent(receiverId);
+     return await createChatParticipant(receiverId);
     },
     onSuccess: (data) => {
       // toastSuccess('Chat created successfully');
@@ -90,7 +91,7 @@ const WritterPersonalPage = () => {
         </div>
 
         <div className=' w-full center my-5'>
-          <button onClick={()=> createChatMutation.mutate(data?.writters?.id)  } className=' buttonbg w-full rounded-2xl mt-5 py-2'>Message Writter</button>
+          <button onClick={()=> createChatMutation.mutate(data?.writters?.id)  } className='center buttonbg w-full rounded-2xl mt-5 py-2'>{ createChatMutation.isPending ? <Loader className=' animate-spin ' /> :'Message Writter'}</button>
         </div>
 
       </div>

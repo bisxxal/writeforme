@@ -1,6 +1,7 @@
 'use client'
 import { userProfile } from '@/actions/user.action'
 import CollageName from '@/components/collageName'
+import { useProfileInfoHook } from '@/hooks/useProfileinfo'
 import { useQuery } from '@tanstack/react-query'
 import { LogOut, Pencil, X } from 'lucide-react'
 import { signOut } from 'next-auth/react'
@@ -13,10 +14,8 @@ const ProfilePage = () => {
   const [showCollege, setShowCollege] = useState(false);
 
   const router = useRouter();
-  const { data, isLoading } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: async () => await userProfile()
-  })
+  const { data } = useProfileInfoHook()
+
   const [collageName, setCollageName] = useState(() => {
     if (typeof window !== 'undefined') {
       const val = localStorage.getItem('collageName');
@@ -32,6 +31,7 @@ const ProfilePage = () => {
     }
     return false;
   })
+
   const handelBuyerMode = (mode: boolean) => {
     setBuyerMode(mode)
     if (typeof window !== 'undefined') {
@@ -43,15 +43,18 @@ const ProfilePage = () => {
   useEffect(() => {
     const res = localStorage.getItem('collageName');
     setCollageName(res);
-
   }, [showCollege])
+
+  useEffect(() => {
+     if(!localStorage.getItem('collageName') && data?.user?.collegeName){
+      localStorage.setItem('collageName', data?.user?.collegeName  );
+     }
+  }, [data])
 
   return (
     <div className=' w-full min-h-screen relative px-10  max-md:px-3 flex flex-col gap-5'>
 
-      {showCollege && <div className='pt-[70px] fixed top-0  min-h-screen z-10 left-0 w-full bg-[#00000047] backdrop-blur-xl flex justify-center '>
-
-        <p onClick={()=>setShowCollege(false)} className=' text-xl absolute top-24 right-10 '><X/></p>
+      {showCollege && <div className='pt-[70px] fixed top-0 h-screen z-10 left-0 w-full bg-[#00000047] backdrop-blur-xl flex justify-center '>
         <CollageName showCollege={showCollege} setShowCollege={setShowCollege} />
       </div>}
 
@@ -89,15 +92,14 @@ const ProfilePage = () => {
             }
           </div>
 
-          <div className=' mb-2 border-b border-[#d3d3d346] pb-2'>
+          <div className=' mb-2   pb-2'>
             <p className='between text-gray-400'>Member since</p>
-            {/* <p className=' mt-4'>{new Date(data?.user?.createdAt)}</p> */}
-            <p className=' mt-4'>{data?.user?.createdAt.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p className=' mt-1'>{data?.user?.createdAt.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
           </div>
 
-          <div className=' mb-2 border-b border-[#d3d3d346] pb-2'>
+          <div className=' mb-2  pb-2'>
             <p className='between text-gray-400'>Email</p>
-            <p className=' mt-4'>{data?.user?.email}</p>
+            <p className=' mt-1'>{data?.user?.email}</p>
           </div>
 
         </div>
