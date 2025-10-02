@@ -35,10 +35,10 @@ const TaskPage = () => {
   return (
     <div className=' w-full px-10 max-md:px-4 pb-20'>
 
-      <div className=' between  '>
-        <div onClick={() => setActiveTab('all')} className=' cursor-pointer  border-b border-[#ffffff2d] p-2 px-5 rounded-lg card'>All</div>
-        <div onClick={() => setActiveTab('pending')} className=' cursor-pointer  border-b border-[#ffffff2d] p-2 px-5 rounded-lg card'>Pending</div>
-        <div onClick={() => setActiveTab('completed')} className=' cursor-pointer  border-b border-[#ffffff2d] p-2 px-5 rounded-lg card'>Completed</div>
+      <div className=' between '>
+        <div onClick={() => setActiveTab('all')} className={`${activeTab=== 'all' ? ' border-[#FFF83F] textbase ':" text-gray-400 border-gray-400 " } cursor-pointer  border-b-2 p-2 px-5  `}>All</div>
+        <div onClick={() => setActiveTab('pending')} className={`${activeTab=== 'pending' ? ' border-[#FFF83F] textbase ':" text-gray-400 border-gray-400 " } cursor-pointer  border-b-2 p-2 px-5  `}>Pending</div>
+        <div onClick={() => setActiveTab('completed')} className={`${activeTab=== 'completed' ? ' border-[#FFF83F] textbase ':" text-gray-400 border-gray-400 " } cursor-pointer  border-b-2 p-2 px-5  `}>Completed</div>
       </div>
       {
         activeTab === 'all' ? <AllTask data={data?.data} user={user?.user} /> : activeTab === 'pending' ? <PendingTask data={data?.data} user={user?.user} /> : <CompletedTask data={data?.data} user={user?.user} />
@@ -80,7 +80,7 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
     },
     onSuccess: (data) => {
       if (data.status === 200) {
-        toastSuccess('Ratings submitted successfully');
+        toastSuccess('Thank you for giving Rating!');
         queryClient.invalidateQueries({ queryKey: ['assignments'] })
       }
       else {
@@ -237,7 +237,7 @@ const CompletedTask = ({ data, user }: { data: TaskPageProps[], user: { id: stri
     },
     onSuccess: (data) => {
       if (data.status === 200) {
-        toastSuccess('Ratings submitted successfully');
+        toastSuccess('Thank you for giving Rating!');
         queryClient.invalidateQueries({ queryKey: ['assignments'] })
       }
       else {

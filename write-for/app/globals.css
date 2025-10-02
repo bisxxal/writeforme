@@ -1,6 +1,4 @@
 @import "tailwindcss";
-
- 
  
 body {
   background: #181A24;
@@ -17,6 +15,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.textbase{
+    color:  #FFF83F;
 }
  
 .buttonbg2{

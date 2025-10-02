@@ -34,7 +34,7 @@ const Dashboard = () => {
       {
         modeLoading ? <div className=' w-full min-h-screen center'>
           <Loader className=' animate-spin' />
-        </div> : buyerMode ? <BuyerMode /> : <SellerMode isLoading={isLoading} data={data} />}
+        </div> : buyerMode ? <BuyerMode /> : <SellerMode isLoading={isLoading} data={data?.user} />}
 
     </div>
   )

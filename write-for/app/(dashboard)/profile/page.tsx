@@ -46,6 +46,7 @@ const ProfilePage = () => {
   useEffect(() => {
      if(!localStorage.getItem('collageName') && data?.user?.collegeName){
       localStorage.setItem('collageName', data?.user?.collegeName  );
+      localStorage.setItem('district', data?.user?.district?.toLowerCase()  || '' );
      }
   }, [data])
 

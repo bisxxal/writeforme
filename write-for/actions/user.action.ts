@@ -20,13 +20,22 @@ export const userProfile = async () => {
                 name: true,
                 email: true,
                 image: true,
-                createdAt: true,
-                showsCasePhotos: true,
-                isSellerModeActive: true,
-                description: true,
-                collegeName : true,
-                pagePrice: true,
-                digramsPrice: true,
+                createdAt: true, 
+                isSellerModeActive: true, 
+                collegeName : true, 
+                district : true,
+                assignmentsWritten:{
+                    select:{
+                        id:true,
+                        status:true,
+                        price:true,
+                    }
+                },
+                ratingsReceived:{
+                    select:{
+                        stars:true
+                    }
+                }
             }
         })
 
@@ -171,6 +180,11 @@ export const allWritters = async (district:string) => {
                 showsCasePhotos: true,
                 description: true,
                 pagePrice: true,
+                ratingsReceived:{
+                    select:{
+                        stars:true,
+                    }
+                },
                 collegeName: true,
                 district: true,
             }

@@ -8,8 +8,5 @@ export const useProfileInfoHook = ()=>{
             return await userProfile();
         },
     });
-
     return  {data, isLoading};
-
-
 }

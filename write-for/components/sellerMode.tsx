@@ -1,12 +1,40 @@
 'use client'
+import { Star } from 'lucide-react';
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const SellerMode = ({data, isLoading}) => {
+const SellerMode = ({data , isLoading}) => {
+
+
+  const [ratings , setRatings] = useState(0);
+  const [assignments , setAssignments] = useState({pending:0, completed:0, earning:0});
+  
+  useEffect(() => {
+    if (data && data.ratingsReceived?.length > 0) {
+      const total = data.ratingsReceived.reduce((acc:{stars:number}, curr:{stars:number}) => Number(acc) + Number(curr.stars), 0);
+      const average = total / data.ratingsReceived.length;
+
+      const assignments = data.assignmentsWritten.reduce((acc: {pending: number, completed: number, earning: number}, curr: {status: string, price: string | number})=>{
+        if(curr.status.toLowerCase() === 'completed'){
+          acc.completed += 1;
+          acc.earning += Number(curr.price);
+        } else if(curr.status.toLowerCase() === 'pending'){
+          acc.pending += 1;
+        }
+        return acc;
+      },{pending: 0, completed: 0, earning: 0})
+       
+      setAssignments(assignments);
+      setRatings(average);
+    }
+
+  }, [data]);
+
+  // console.log(assignments);
   return (
     <div className=' w-full px-10 max-md:px-4 pb-20 mt-20'>
 
-      { !isLoading && data?.user?.isSellerModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
+      { !isLoading && data?.isSellerModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
         <p>Complete your writter profile to startreceving assignment</p>
         <Link className='buttonbg bg-blue-600 w-fit p-1 px-4 rounded-full' href='edit'>Active Now</Link>
       </div>}
@@ -21,18 +49,20 @@ const SellerMode = ({data, isLoading}) => {
           <div className=" flex flex-col gap-2 ">
             <div>
               <p className=' text-lg  '>My Ratings</p>
-              <p className='text-3xl font-bold'>0.00</p>
-              <div>
-                <span className=' text-yellow-400 '>★</span>
-                <span className=' text-yellow-400 '>★</span>
-                <span className=' text-gray-500 '>★</span>
-                <span className=' text-gray-500 '>★</span>
-                <span className=' text-gray-500 '>★</span>
+              <p className='text-3xl font-bold'>{ratings.toFixed(1)}</p>
+
+              <div className=' flex gap-1 mt-1 '>
+                {Array.from({ length: 5 }).map((_, index) => {
+                  const roundedRating = ratings - index;
+                  if (roundedRating >= 1) return <span key={index}> <Star color='#facc15' fill='#facc15'/> </span>;
+                  if (roundedRating >= 0.5) return <span key={index}><Star/></span>; // change to ⯪ for half-star if you use icons
+                  return <span key={index}><Star/></span>;
+                })}
               </div>
 
             </div>
-            <h2 className=' between'>Earning <span>₹0</span></h2>
-            <h2 className=' between'>Completed Assignment <span>0</span></h2>
+            <h2 className=' between'>Earning <span>₹{assignments.earning}</span></h2>
+            <h2 className=' between'>Completed Assignment <span>{assignments.completed}</span></h2>
           </div>
         </div>
 
@@ -40,7 +70,15 @@ const SellerMode = ({data, isLoading}) => {
         <div className="between p-2 px-4 rounded-2xl  card bordercolor">
           <div>
             <p>Pending Assignments</p>
-            <p className=' text-3xl '>0</p>
+            <p className=' text-3xl '>{assignments.pending}</p>
+          </div>
+          <Link href={`/task`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
+        </div>
+
+        <div className="between p-2 px-4 rounded-2xl  card bordercolor">
+          <div>
+            <p>Completed Assignments</p>
+            <p className=' text-3xl '>{assignments.completed}</p>
           </div>
           <Link href={`/task`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
         </div>
@@ -49,7 +87,7 @@ const SellerMode = ({data, isLoading}) => {
         <div className="between p-2 px-4 rounded-2xl  card bordercolor">
           <div>
             <p>Total Earnings</p>
-            <p className=' text-3xl '>₹0</p>
+            <p className=' text-3xl '>₹{assignments.earning}</p>
           </div>
           <Link href={`/earnings`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
         </div>

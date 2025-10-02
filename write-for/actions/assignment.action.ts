@@ -105,7 +105,8 @@ export const updateAssignmentStatus = async (assignmentId: string, status: 'PEND
                 writerId: session.user?.id || ''
             },
             data: {
-                status
+                status,
+                expectedDate:  new Date()  
             }
         })
 
