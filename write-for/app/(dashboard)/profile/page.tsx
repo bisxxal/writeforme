@@ -58,13 +58,13 @@ const ProfilePage = () => {
       </div>}
 
       <div className=' absolute max-md:top-0 top-2 backdrop-blur-[4px] bordercolor p-2 rounded-full px-3 right-5'>
-        <button onClick={() => signOut()}><LogOut /></button>
+        <button className=' textbase' onClick={() => signOut()}><LogOut /></button>
       </div>
 
       <div className='mt-14 card border bordercolor rounded-2xl p-5 center flex-col gap-3 '>
         {data?.user?.image && <div className=' relative '>
           <Image loading='lazy' src={data?.user?.image!} alt="User Avatar" width={40} height={40} className=' max-md: w-24  rounded-full' />
-        { buyerMode  && <Link href={`/edit`} className=' absolute right-0 bottom-0 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil size={20} /> </Link>}
+        { buyerMode  && <Link href={`/edit`} className=' absolute right-0 bottom-0 bg-white/10 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil className='textbase' size={20} /> </Link>}
         </div>}
         <h1>{data?.user?.name}</h1>
       </div>

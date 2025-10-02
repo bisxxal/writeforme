@@ -34,7 +34,7 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
 
     return (
         <div className='flex flex-col w-full'>
-            <p className='my-3 mt-7 pl-10 max-md:pl-2 textbase font-semibold'>Messges</p>
+            <p className='my-3 mt-4 pl-10 max-md:pl-2 textbase text-2xl font-semibold'>Messges</p>
             {  !isLoading && chats?.length !== 0 ?
                 [...chats]
                     .sort((a, b) => {

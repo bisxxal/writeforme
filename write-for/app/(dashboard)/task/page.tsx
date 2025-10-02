@@ -36,9 +36,9 @@ const TaskPage = () => {
     <div className=' w-full px-10 max-md:px-4 pb-20'>
 
       <div className=' between '>
-        <div onClick={() => setActiveTab('all')} className={`${activeTab=== 'all' ? ' border-[#FFF83F] textbase ':" text-gray-400 border-gray-400 " } cursor-pointer  border-b-2 p-2 px-5  `}>All</div>
-        <div onClick={() => setActiveTab('pending')} className={`${activeTab=== 'pending' ? ' border-[#FFF83F] textbase ':" text-gray-400 border-gray-400 " } cursor-pointer  border-b-2 p-2 px-5  `}>Pending</div>
-        <div onClick={() => setActiveTab('completed')} className={`${activeTab=== 'completed' ? ' border-[#FFF83F] textbase ':" text-gray-400 border-gray-400 " } cursor-pointer  border-b-2 p-2 px-5  `}>Completed</div>
+        <div onClick={() => setActiveTab('all')} className={`${activeTab=== 'all' ? ' border-[#a860e3]  textbase font-medium ':" text-gray-400 border-gray-400 transition-all " } cursor-pointer  border-b-2 p-2 px-5  `}>All</div>
+        <div onClick={() => setActiveTab('pending')} className={`${activeTab=== 'pending' ? ' border-[#a860e3]  textbase font-medium':" text-gray-400 border-gray-400 transition-all " } cursor-pointer  border-b-2 p-2 px-5  `}>Pending</div>
+        <div onClick={() => setActiveTab('completed')} className={`${activeTab=== 'completed' ? ' border-[#a860e3]  textbase font-medium':" text-gray-400 border-gray-400 transition-all " } cursor-pointer  border-b-2 p-2 px-5  `}>Completed</div>
       </div>
       {
         activeTab === 'all' ? <AllTask data={data?.data} user={user?.user} /> : activeTab === 'pending' ? <PendingTask data={data?.data} user={user?.user} /> : <CompletedTask data={data?.data} user={user?.user} />

@@ -220,12 +220,11 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
   }, [isLoading, data]);
 
   return (
-    <div className="flex relative top-1 -mt-6 flex-col h-fit   w-full  mx-auto px-4">
+    <div className="flex relative top-1 -mt-6 flex-col h-fit   w-full  mx-auto px-">
       <div className='fixed w-full h-[60px] z-[30] pr-4 bg-[#c2c2c240] backdrop-blur-[18px] top-0 left-0  !justify-between center shadow-xl '>
-        <div className='   center gap-3'>
-          <Back className='ml-2' />
+        <div className='   center gap-2'>
+          <Back className='ml-0' />
           {user && <>
-
             <div className=' flex gap-3 items-center pr-3 '>
               <Image height={50} width={50} className=' w-10 h-10 rounded-full ' src={user?.image} alt="" />
               <h1 className=' text-lg textbase font-semibold'>{user.name}</h1>
@@ -243,7 +242,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
 
           <div className='relative group'>
             <label htmlFor='is'>
-              <p><CircleEllipsis className=' text-gray-500' size={20} /></p>
+              <p><CircleEllipsis className=' textbase ' size={20} /></p>
             </label>
             <input type="checkbox" hidden id="is" />
             <div className='group-has-checked:flex hidden absolute  py-4 w-52 flex flex-col gap-2 border  text-white p-2 border-black/10 rounded-2xl bg-black/50 !backdrop-blur-[10px] -left-[180px] '>
@@ -253,7 +252,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           </div>
         }
         {selectedMessages.size > 0 && (
-          <div className="flex justify-end  bg-zinc-800 rounded-2xl gap-1 ">
+          <div className="flex justify-end rounded-2xl gap-1 ">
             <button className=' px-4 py-2 border-r border-white/50' onClick={() => setSelectedMessages(new Set())}>
               <Ban />
             </button>
@@ -267,9 +266,8 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           </div>
         )}
       </div>{
-        // showPopUp && <PopUpCom showPopUp={showPopUp} setShowPopUp={setShowPopUp} chatId={chatId} />
       }
-      <div className='relative  bg-[url(https://images.unsplash.com/photo-1568222071880-a938edc32cc0?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover flex flex-col mt-[70px]  mx-auto max-w-2xl rounded-2xl max-md:border-none max-md:shadow-none border border-black/10 shadow-xl p-2  w-full max-md:h-[83vh] h-[80vh]'>
+      <div className='relative  bg-[url(/bg.png)] bg-contain flex flex-col mt-[10px]  mx-auto max-w-2xl rounded-2xl max-md:border-none max-md:shadow-none border border-black/10 shadow-xl p-2  w-full max-md:h-[83vh] h-[80vh]'>
 
         {isFetchingNextPage && (
           <div className="loading-animation center text-center text-sm text-gray-400">
@@ -280,7 +278,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
         <div ref={scrollContainerRef} className=" w-full scrollbar overflow-y-auto space-y-3 rounded-2xl h-[70vh] max-md:h-[76vh] ">
           {Object.entries(groupedMessages).length !== 0 ? Object.entries(groupedMessages).map(([dateKey, msgs]) => (
             <div key={dateKey}>
-              <div className="text-center w-fit bg-[#ffffff5c] border border-white/80 mx-auto rounded-full px-3  backdrop-blur-[10px] my-4 text-sm text-gray-500 font-medium">
+              <div className="text-center w-fit bg-[#ffffff5c] border border-white/30 mx-auto rounded-full px-3  backdrop-blur-[10px] my-4 text-sm text-gray-200 font-medium">
                 {formatDateLabel(dateKey)}
               </div>
 
@@ -298,8 +296,8 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
 
                     {isSelected && <div className=' w-full rounded-lg bas buttonbg opacity-[0.4] z-[10] h-full top-0 left-0 absolute'></div>}
                     <div className={` max-w-[80%] w-fit px-5 py-1.5 ${msg?.senderId === currentUserId
-                      ? 'bg-blue-60 buttonbg text-white rounded-b-2xl rounded-l-2xl ml-auto'
-                      : 'bg-gray-10 backdrop-blur-[50px] bordercolor text-black/60 rounded-b-2xl rounded-r-2xl'}`}>
+                      ? ' buttonbg text-white rounded-b-2xl rounded-l-2xl ml-auto'
+                      : ' backdrop-blur-[5px] bg-white/10 bordercolor  rounded-b-2xl rounded-r-2xl'}`}>
                       <p className='max-w-[99%]'>{msg?.content}</p>
                       <p className="text-xs opacity-70 text-right">
                         {moment(msg?.createdAt).format('LT')}
@@ -351,7 +349,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             rows={1}
-            className="flex-1 px-4 py-2 flex-1 scrollbar bg-[#ffffff61] backdrop-blur-[40px]  border rounded-3xl border-white/80  resize-none overflow-auto text-white bg-transparent focus:outline-none leading-relaxed max-h-[200px]"
+            className="flex-1 px-4 py-2 flex-1 scrollbar backdrop-blur-[5px] rounded-3xl bordercolor  resize-none overflow-auto text-white bg-transparent focus:outline-none leading-relaxed max-h-[200px]"
             placeholder="Type a message..."
             onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
               const target = e.currentTarget;
@@ -363,7 +361,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           <button
             onClick={sendMessage}
             disabled={!newMessage}
-            className={` ${!newMessage && " opacity-[0.5] "}  text-white center w-12 h-12 rounded-full center  bg-[#3B83B7] disabled:opacity-[0.6] disabled:cursor-not-allowed`}>
+            className={` ${!newMessage && " opacity-[0.5] "}  text-white center w-12 h-12 rounded-full center  bg-[#9955D4] disabled:opacity-[0.6] disabled:cursor-not-allowed`}>
             {megSending ? <Loader className='text-xl animate-spin ' /> : <Send size={23} strokeWidth={1.25} />}
           </button>
         </div>

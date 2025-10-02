@@ -1,8 +1,9 @@
 @import "tailwindcss";
  
 body {
-  background: #181A24;
-  color: #e6eaf3;
+  /* background: #181A24; */
+  background: #070012;
+  color: #e6cbf6;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -18,7 +19,7 @@ body {
 }
 
 .textbase{
-    color:  #FFF83F;
+    color:  #C77DFF;
 }
  
 .buttonbg2{
@@ -53,21 +54,23 @@ body {
 
        
 .card{
-  background: #232439;;
+  background: #2c155326;;
 }
 input{
-  @apply border-none outline-none
+  @apply border-none outline-none  bg-[#2c155326];
 }
 .bordercolor{
-  @apply border border-[#d3d3d346];
+  @apply border border-[#433d7b69];
 }
 
 .boxanimation {
   animation: boxanimation 0.2s ease-in-out ;
 }
-.buttonbg{
-  color: black;
-  background-color: #FFF83F;
+.buttonbg{ 
+  @apply bg-gradient-to-br text-white from-[#a860e3] font-medium to-[#5A189A];
+  box-shadow: inset -6px -6px 20px 2px #00000030;
+
+  /* background-color: #a860e3; */
 }
 @keyframes boxanimation {
 0% {

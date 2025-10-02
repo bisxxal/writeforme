@@ -4,7 +4,8 @@ import { singleWritter } from '@/actions/user.action';
 import Loading from '@/components/ui/loading';
 import { toastSuccess } from '@/lib/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Loader } from 'lucide-react';
+import { Loader, Star } from 'lucide-react';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react'
 
@@ -35,6 +36,9 @@ const WritterPersonalPage = () => {
     },
  })
 
+ const total = data?.writters?.ratingsReceived?.reduce((acc: { stars: number }, curr: { stars: number }) => Number(acc) + Number(curr.stars), 0) || 0;
+          const average = data?.writters?.ratingsReceived?.length ? (total / data?.writters.ratingsReceived.length) : 0;
+
   if (isLoading) {
     <div className=' w-full min-h-screen  bg-red-50 px-10 max-md:px-5'>
       <div className=' flex gap-5 items-center mt-10'>
@@ -54,25 +58,38 @@ const WritterPersonalPage = () => {
   return (
     <div className=' w-full min-h-screen px-10 max-md:px-5'>
       <div className=' flex gap-5 items-center mt-10'>
-       { !isLoading ? <img src={data?.writters?.image} className='rounded-full object-cover w-[180px] h-[180px] ' alt="" />:
+       { !isLoading ? <Image width={70} height={70} src={data?.writters?.image || '/user.jpg'} className='rounded-full object-cover   h-[70px] w-[70px]   ' alt="" />:
         <Loading boxes={1} parent=' !w-[180px] !h-[180px] ' child=' !w-full !h-full rounded-full' />
        }
 
         <div>
-          <p className=' text-2xl font-bold'>{data?.writters?.name}</p>
-          {/* <p>{data?.writters?.collegeName}</p> */}
+          <p className=' text-xl font-bold'>{data?.writters?.name}</p>
+          <p className=' text-xs'>{data?.writters?.collegeName}</p>
         </div>
       </div>
 
+       <div className='px-2 my-1 flex flex-col justify-center    items-end'>
+                <p className=' textbase text-4xl max-md:text-3xl font-bold'>  {Number(Number(average).toFixed(1)) !== 0 && average.toFixed(1)}</p>
+                <p className=' flex gap-0.5'>
+                  {Number(Number(average).toFixed(1)) !== 0 ? Array.from({ length: 5 }).map((_, index) => {
+                    const roundedRating = average - index;
+                    if (roundedRating >= 1) return <span key={index}> <Star color='#facc15' fill='#facc15' /> </span>;
+                    if (roundedRating >= 0.5) return <span key={index}><Star /></span>;
+                    return <span key={index}><Star /></span>;
+                  }) : <span className=' text-gray-500 pl-2'>No ratings yet</span>}
+                </p>
+              </div>
+
+
       <div>
         <label className=' mt-5 block font-semibold text-xl'>Description</label>
-        <p>{data?.writters?.description}</p>
+        <p className=' text-sm'>{data?.writters?.description}</p>
 
         <label className=' mt-5 block font-semibold text-xl'>Showcase</label>
 
         <div className=' flex gap-3 overflow-x-auto py-3'>
           {data?.writters?.showsCasePhotos && data?.writters?.showsCasePhotos?.map((item: string, index: number) => (
-            <img key={index} src={item} className=' w-[120px] h-[120px] object-cover rounded-lg' alt="" />
+            <Image width={100} height={100} key={index} src={item} className='  w-[120px] h-[120px] object-cover rounded-lg' alt="" />
           ))}
         </div>
 

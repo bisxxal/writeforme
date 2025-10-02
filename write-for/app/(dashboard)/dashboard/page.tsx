@@ -8,16 +8,6 @@ import React, { useEffect, useState } from 'react'
 const Dashboard = () => {
   const { data, isLoading } = useProfileInfoHook();
   const [modeLoading, setModeLoading] = useState(true);
-  // const [collageLoading, setCollageLoading] = useState(true);
-
-  // const [collageName, setCollageName] = useState(() => {
-  //   if (typeof window !== 'undefined') {
-  //     const val = localStorage.getItem('collageName');
-  //     setCollageLoading(false);
-  //     return val;
-  //   }
-  //   return null;
-  // });
 
   const [buyerMode, setBuyerMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -33,7 +23,7 @@ const Dashboard = () => {
 
       {
         modeLoading ? <div className=' w-full min-h-screen center'>
-          <Loader className=' animate-spin' />
+          {/* <Loader className=' animate-spin' /> */}
         </div> : buyerMode ? <BuyerMode /> : <SellerMode isLoading={isLoading} data={data?.user} />}
 
     </div>

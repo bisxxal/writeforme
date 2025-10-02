@@ -1,16 +1,6 @@
-'use client'
-// import Link from "next/link";
-// export default function Home() {
-//   return (
-//     <div className=" center min-h-screen  w-full">
-//       <p>Welcome back</p>
-//       <Link className=" buttonbg rounded-full p-4" href={`/sign-in`}>Get started</Link>
-//     </div>
-//   );
-// }
-
+'use client' 
  
-import { Search,   DollarSign, Clock, Star, BookOpen, CheckCircle } from 'lucide-react';
+import { Search,  Star } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AssignmentMarketplace() {
@@ -51,9 +41,13 @@ export default function AssignmentMarketplace() {
         
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
-            <h1 className="text-6xl font-extrabold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Write For Me
-            </h1>
+            <div className="center gap-3">
+
+              <p className='text-6xl font-extrabold mb-4 bg-gradient-to-r from-[#a860e3] to-[#5A189A] bg-clip-text text-transparent'>       Write For Me</p>
+       
+                            <img src="/logo.png" className=" hover:scale-[1.09] transition-all w-28 h-28 " alt="" />
+
+            </div>
             <p className="text-xl text-zinc-400">Connect writers with those who need quality work</p>
           </div>
 
@@ -70,7 +64,7 @@ export default function AssignmentMarketplace() {
           </div>
 
           <div className=' w-full center'>
-            <Link href="/sign-in" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-medium transition-colors">
+            <Link href="/sign-in" className="inline-flex items-center gap-2 buttonbg hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-medium transition-colors">
               Sign in to find a writer
             </Link>
           </div>
@@ -113,7 +107,7 @@ export default function AssignmentMarketplace() {
                       <span>₹ {writer.rate} / page</span>
                   </div>
 
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-colors">
+                  <button className="w-full buttonbg hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-colors">
                     Hire Writer
                   </button>
                 </div>

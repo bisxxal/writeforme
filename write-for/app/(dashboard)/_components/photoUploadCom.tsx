@@ -60,7 +60,6 @@ const PhotoUploadCom = ({ data, isLoading }: { data: { showsCasePhotos: string[]
 
 
   const handleUpload = () => {
-    console.log('Uploading files:', files);
     const formData = new FormData();
     files.forEach(file => formData.append('photos', file));
     uploadMutation.mutate(formData);
@@ -97,21 +96,19 @@ const PhotoUploadCom = ({ data, isLoading }: { data: { showsCasePhotos: string[]
   const handelChangeDelete = (id: string) => {
     setDeleteId(prev => {
       if (prev.includes(id)) {
-        // Remove ID if already selected
         return prev.filter(item => item !== id);
       } else {
-        // Add ID if not already selected
         return [...prev, id];
       }
     });
   };
   return (
-    <div className='w-fit px-5 pb-20 max-md:px-0 '>
+    <div className='w-full px-5 pb-20 max-md:px-0   '>
       <h1 className='my-9 ml-4'>
         {!existingImages && !isLoading && <div className='max-md:text-xs border border-yellow-500 center rounded-2xl p-3 bg-yellow-500/20 text-yellow-300 mt-3'> Add atleast 1 photo !! To visible user ⚠️</div>}
       </h1>
 
-      <div className="w-full flex max-sm:gap-2.5 flex-wrap justify-evenly px-5 gap-5 max-md:px-2 mt-4">
+      <div className="w-full flex max-sm:gap-2.5 flex-wrap   px-5 gap-3 max-md:px-0 mt-4">
 
         {!isLoading ? <>
           {existingImages && existingImages?.map((u: string, idx: number) => {
@@ -134,12 +131,12 @@ const PhotoUploadCom = ({ data, isLoading }: { data: { showsCasePhotos: string[]
           ))}
 
           {[...Array(len)].map((_, i) => (
-            <div key={i} className=' max-md:w-[47%] glass3 max-md:h-[230px]  w-[200px] h-[300px] flex items-center justify-center bg-[#ffffff21] rounded-2xl border-dashed border border-black/20'>
+            <div key={i} className=' max-md:w-[47%] max-md:h-[230px]  w-[200px] h-[300px] flex items-center justify-center bg-[#ffffff21] rounded-2xl border-dashed border border-black/20'>
               <button className='buttonbg h-10 w-10 flex text-2xl rounded-full items-center justify-center' onClick={() => fileInputRef.current?.click()}>+</button>
             </div>
           ))}
         </> :
-          <LoadingCom boxes={3} child=" max-md:w-[47%] max-md:h-[230px] !rounded-2xl w-[200px] h-[300px] " parent=" !items-start !justify-between  py-0 max-md:px-0  w-full flex-wrap  flex-row " />
+          <LoadingCom boxes={3} child=" max-md:w-[47%] max-md:h-[230px] !rounded-2xl w-[200px] h-[300px] " parent=" !items-start !justify-start  py-0 max-md:px-0 !gap-3 w-full flex-wrap  flex-row " />
         }
       </div>
 

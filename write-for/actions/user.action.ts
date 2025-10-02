@@ -208,6 +208,12 @@ export const singleWritter = async (id: string) => {
                 image: true,
                 description: true,
                 pagePrice: true,
+                collegeName: true,
+                ratingsReceived:{
+                    select:{
+                        stars:true,
+                    }
+                },
                 digramsPrice: true,
                 showsCasePhotos: true,
             }

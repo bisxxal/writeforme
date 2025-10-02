@@ -29,13 +29,12 @@ const SellerMode = ({data , isLoading}) => {
     }
 
   }, [data]);
-
-  // console.log(assignments);
+ 
   return (
-    <div className=' w-full px-10 max-md:px-4 pb-20 mt-20'>
+    <div className=' w-full px-10  max-md:px-4 pb-20 pt-10 mt-20'>
 
       { !isLoading && data?.isSellerModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
-        <p>Complete your writter profile to startreceving assignment</p>
+        <p>Complete your writter profile to start receving assignment</p>
         <Link className='buttonbg bg-blue-600 w-fit p-1 px-4 rounded-full' href='edit'>Active Now</Link>
       </div>}
 
@@ -49,7 +48,7 @@ const SellerMode = ({data , isLoading}) => {
           <div className=" flex flex-col gap-2 ">
             <div>
               <p className=' text-lg  '>My Ratings</p>
-              <p className='text-3xl font-bold'>{ratings.toFixed(1)}</p>
+              <p className='text-3xl textbase font-bold'>{ratings.toFixed(1)}</p>
 
               <div className=' flex gap-1 mt-1 '>
                 {Array.from({ length: 5 }).map((_, index) => {
@@ -61,8 +60,8 @@ const SellerMode = ({data , isLoading}) => {
               </div>
 
             </div>
-            <h2 className=' between'>Earning <span>₹{assignments.earning}</span></h2>
-            <h2 className=' between'>Completed Assignment <span>{assignments.completed}</span></h2>
+            <h2 className=' between'>Earning <span className='textbase text-xl font-bold'>₹{assignments.earning}</span></h2>
+            <h2 className=' between'>Completed Assignment <span className='textbase text-xl font-bold'>{assignments.completed}</span></h2>
           </div>
         </div>
 
@@ -70,15 +69,7 @@ const SellerMode = ({data , isLoading}) => {
         <div className="between p-2 px-4 rounded-2xl  card bordercolor">
           <div>
             <p>Pending Assignments</p>
-            <p className=' text-3xl '>{assignments.pending}</p>
-          </div>
-          <Link href={`/task`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
-        </div>
-
-        <div className="between p-2 px-4 rounded-2xl  card bordercolor">
-          <div>
-            <p>Completed Assignments</p>
-            <p className=' text-3xl '>{assignments.completed}</p>
+            <p className=' text-3xl textbase'>{assignments.pending}</p>
           </div>
           <Link href={`/task`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
         </div>
@@ -87,7 +78,7 @@ const SellerMode = ({data , isLoading}) => {
         <div className="between p-2 px-4 rounded-2xl  card bordercolor">
           <div>
             <p>Total Earnings</p>
-            <p className=' text-3xl '>₹{assignments.earning}</p>
+            <p className=' text-3xl font-extrabold mt-2 textbase'>₹{assignments.earning}</p>
           </div>
           <Link href={`/earnings`} className=' buttonbg p-2 rounded-4xl px-5'>View Details</Link>
         </div>

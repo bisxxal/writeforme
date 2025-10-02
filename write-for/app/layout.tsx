@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import QuaryClient from "@/provider/QuaryClient";
+import ErrorBoundary from "@/components/errorBoundary";
 
 export const metadata: Metadata = {
   title: "Write For Other",
@@ -19,7 +20,11 @@ export default function RootLayout({
         <QuaryClient >
           <Toaster position="top-right"reverseOrder={false} />
           <div className=" relative w-full min-h-screen ">
-            {children}
+            {/* {children} */}
+            {/* <ErrorBoundary> */}
+              {children}
+            {/* </ErrorBoundary> */}
+
           </div>
         </QuaryClient>
       </body>
