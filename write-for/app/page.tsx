@@ -1,14 +1,126 @@
-import Link from "next/link";
+'use client'
+// import Link from "next/link";
+// export default function Home() {
+//   return (
+//     <div className=" center min-h-screen  w-full">
+//       <p>Welcome back</p>
+//       <Link className=" buttonbg rounded-full p-4" href={`/sign-in`}>Get started</Link>
+//     </div>
+//   );
+// }
 
  
-export default function Home() {
-   
+import { Search,   DollarSign, Clock, Star, BookOpen, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
+
+export default function AssignmentMarketplace() {
+  const writers = [
+    {
+      id: 1,
+      name: "Sarah Mitchell",
+      rating: 4.9,
+      completed: 156, 
+      rate: 5,
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
+    },
+    {
+      id: 2,
+      name: "James Rodriguez",
+      rating: 4.8,
+      completed: 203, 
+      rate: 10,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop"
+    },
+    {
+      id: 3,
+      name: "Emily Chen",
+      rating: 5.0,
+      completed: 89, 
+      rate: 22,
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop"
+    }
+  ];
+ 
   return (
-  <div className=" center min-h-screen  w-full">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black">
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200')] bg-cover bg-center"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <div className="text-center mb-12">
+            <h1 className="text-6xl font-extrabold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Write For Me
+            </h1>
+            <p className="text-xl text-zinc-400">Connect writers with those who need quality work</p>
+          </div>
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={20} />
+              <input
+                type="text"
+                placeholder="Search by writer, college name , or district..."
+                className="w-full bg-zinc-900/20 backdrop-blur-[20px] border border-zinc-800 rounded-2xl pl-12 pr-4 py-4 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div className=' w-full center'>
+            <Link href="/sign-in" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-medium transition-colors">
+              Sign in to find a writer
+            </Link>
+          </div>
  
-    <p>Welcome back</p>
-    <Link className=" buttonbg rounded-full p-4" href={`/sign-in`}>Get started</Link>
- 
-  </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
+
+          <div>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">Available Writers Nearby You</h2>
+              <p className="text-zinc-400">{writers.length} writers online</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {writers.map((writer) => (
+                <div
+                  key={writer.id}
+                  className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-2xl p-6 hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/10"
+                >
+                  <div className="flex items-start gap-4 mb-4">
+                    <img
+                      src={writer.avatar}
+                      alt={writer.name}
+                      className="w-16 h-16 rounded-full object-cover"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg">{writer.name}</h3>
+                      <div className="flex items-center gap-2 text-yellow-400 text-sm">
+                        <Star size={16} fill="currentColor" />
+                        <span>{writer.rating}</span>
+                        <span className="text-zinc-500">({writer.completed} completed)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 mb-4">
+                      <span>₹ {writer.rate} / page</span>
+                  </div>
+
+                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-colors">
+                    Hire Writer
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+      </div>
+    </div>
   );
 }

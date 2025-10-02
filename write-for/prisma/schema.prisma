@@ -87,8 +87,9 @@ model Assignment {
   writerId String
   writer   User      @relation("WriterAssignments", fields: [writerId], references: [id])
 
-  ratings  Rating[]
-
+  ratingId String?
+  rating   Rating?
+  
   transaction Transaction[]
 
   createdAt DateTime @default(now())
@@ -107,8 +108,8 @@ model Rating {
   writerId  String
   writer    User     @relation("WriterRatings", fields: [writerId], references: [id])
 
-  assignmentId String
-  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId String @unique
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 }

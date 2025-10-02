@@ -7,19 +7,19 @@ import { getServerSession } from "next-auth";
 export const createAssignment = async (formData: FormData) => {
     try {
         const session = await getServerSession(authOptions);
-         if(!session){
+        if (!session) {
             return JSON.parse(JSON.stringify({ status: 500, message: 'Not authorized user' }));
-        } 
-        const amount = formData.get('amount') as string  ;
-        const buyerId = formData.get('buyerId') as string  ;
-        const expectedDate = formData.get('expectedDate') as string  ;
-        
-        if( !amount || !buyerId){
+        }
+        const amount = formData.get('amount') as string;
+        const buyerId = formData.get('buyerId') as string;
+        const expectedDate = formData.get('expectedDate') as string;
+
+        if (!amount || !buyerId) {
             return JSON.parse(JSON.stringify({ status: 500, message: 'all field is require' }));
         }
-        
+
         const res = await prisma.assignment.create({
-            data:{
+            data: {
                 price: parseFloat(amount),
                 status: 'PENDING',
                 buyerId,
@@ -30,7 +30,7 @@ export const createAssignment = async (formData: FormData) => {
 
         console.log(res)
 
-        if(res) {
+        if (res) {
             return JSON.parse(JSON.stringify({ status: 200, message: 'Assignment created successfully' }));
         }
         return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
@@ -42,40 +42,45 @@ export const createAssignment = async (formData: FormData) => {
 export const getAssignments = async () => {
     try {
         const session = await getServerSession(authOptions);
-         if(!session){
+        if (!session) {
             return JSON.parse(JSON.stringify({ status: 500, message: 'Not authorized user' }));
-        } 
+        }
 
         const res = await prisma.assignment.findMany({
-            where:{
-                OR:[
+            where: {
+                OR: [
                     { buyerId: session.user?.id || '' },
                     { writerId: session.user?.id || '' }
                 ]
             },
-            select:{
+            select: {
                 id: true,
                 price: true,
                 status: true,
                 createdAt: true,
-                expectedDate    : true,
+                expectedDate: true,
+                rating:{
+                  select:{
+                    stars:true
+                  }  
+                },
                 buyer: {
-                    select:{
-                        name: true, 
-                        image: true,id:true
+                    select: {
+                        name: true,
+                        image: true, id: true
                     }
                 },
                 writer: {
-                    select:{
-                        name: true, 
-                        image: true,id:true
+                    select: {
+                        name: true,
+                        image: true, id: true
                     }
                 }
             },
-            orderBy:{ createdAt: 'desc' }
+            orderBy: { createdAt: 'desc' }
         })
 
-        if(res) {
+        if (res) {
             return JSON.parse(JSON.stringify({ status: 200, data: res }));
         }
         return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
@@ -87,28 +92,58 @@ export const getAssignments = async () => {
 export const updateAssignmentStatus = async (assignmentId: string, status: 'PENDING' | 'COMPLETED') => {
     try {
         const session = await getServerSession(authOptions);
-         if(!session){
+        if (!session) {
             return JSON.parse(JSON.stringify({ status: 500, message: 'Not authorized user' }));
-        } 
+        }
 
-        if(!assignmentId){
+        if (!assignmentId) {
             return JSON.parse(JSON.stringify({ status: 500, message: 'Assignment id is required' }));
         }
         const res = await prisma.assignment.updateMany({
-            where:{
+            where: {
                 id: assignmentId,
                 writerId: session.user?.id || ''
             },
-            data:{
+            data: {
                 status
             }
         })
 
-        if(res) {
+        if (res) {
             return JSON.parse(JSON.stringify({ status: 200, message: 'Assignment status updated successfully' }));
         }
         return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const rateAssignment = async (assignmentId: string, rating: number , buyerId:string, writerId:string) => {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return JSON.parse(JSON.stringify({ status: 500, message: 'Not authorized user' }));
+        }
+
+        if (!assignmentId || !rating || !writerId) {
+            return JSON.parse(JSON.stringify({ status: 500, message: 'Assignment id is required' }));
+        }
+        const res = await prisma.rating.create({
+            data: {
+                assignmentId,
+                buyerId: session.user?.id || '',
+                writerId,
+                stars: rating
+            }
+        })
+
+        if (res) {
+            return JSON.parse(JSON.stringify({ status: 200, message: 'Assignment rated successfully' }));
+        }
+        return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
+
+    }
+    catch (error) {
         console.log(error)
     }
 }

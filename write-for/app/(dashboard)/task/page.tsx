@@ -1,9 +1,10 @@
 'use client'
-import { getAssignments, updateAssignmentStatus } from '@/actions/assignment.action';
+import { getAssignments, rateAssignment, updateAssignmentStatus } from '@/actions/assignment.action';
 import Loading from '@/components/ui/loading';
 import { useProfileInfoHook } from '@/hooks/useProfileinfo';
 import { toastSuccess } from '@/lib/toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Star } from 'lucide-react';
 import moment from 'moment';
 import Image from 'next/image';
 import React, { useState } from 'react'
@@ -15,6 +16,9 @@ interface TaskPageProps {
   id: string,
   price: number,
   status: string,
+  rating: {
+    stars: number
+  }
   writer: { name: string, image: string, id: string }
 }
 const TaskPage = () => {
@@ -51,7 +55,8 @@ export default TaskPage
 const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }) => {
 
   const queryClient = useQueryClient();
-  const [showPopUp , setShowPopUp] = useState<null | string>(null)
+  const [showPopUp, setShowPopUp] = useState<null | string>(null)
+
   const updateStatus = useMutation({
     mutationFn: async (assignmentId: string) => {
       return await updateAssignmentStatus(assignmentId, 'COMPLETED')
@@ -68,16 +73,31 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
       }
     }
   })
+
+  const sumbitRattings = useMutation({
+    mutationFn: async ({ assignmentId, ratings, buyerId, writerId }: { assignmentId: string, ratings: number, buyerId: string, writerId: string }) => {
+      return await rateAssignment(assignmentId, ratings, buyerId, writerId)
+    },
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        toastSuccess('Ratings submitted successfully');
+        queryClient.invalidateQueries({ queryKey: ['assignments'] })
+      }
+      else {
+        toastSuccess('Something went wrong');
+      }
+    }
+  })
   return (
     <div className=' mt-10 flex flex-col gap-2 '>
 
-    { showPopUp && <div className=' w-full h-full fixed bg-black/30 backdrop-blur-[50px] px-6 top-0 left-0 z-50 flex justify-center items-center '>
+      {showPopUp && <div className=' w-full h-full fixed bg-black/30 backdrop-blur-[50px] px-6 top-0 left-0 z-50 flex justify-center items-center '>
         <div className=' bordercolor p-5 rounded-lg '>
           <h1 className=' text-lg font-semibold '>Are you sure you want to mark this assignment as completed?</h1>
           <p className=' text-[10px]  text-gray-300'>Make sure you can't reverse the process. </p>
           <div className=' flex gap-3 justify-end mt-5 '>
-            <button onClick={()=>setShowPopUp(null)} className=' px-3 py-1 rounded-lg bg-gray-500 '>Cancel</button>
-            <button  onClick={() => updateStatus.mutate(showPopUp)} className=' px-3 py-1 rounded-lg bg-blue-500 text-white '>Confirm</button>
+            <button onClick={() => setShowPopUp(null)} className=' px-3 py-1 rounded-lg bg-gray-500 '>Cancel</button>
+            <button onClick={() => updateStatus.mutate(showPopUp)} className=' px-3 py-1 rounded-lg bg-blue-500 text-white '>Confirm</button>
           </div>
         </div>
       </div>
@@ -101,6 +121,32 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
                   <p>{i.status.toLowerCase() === 'pending' ? 'expected' : 'Completed on'}: {moment(i?.expectedDate).format('DD-MM-YYYY')}  </p>
                   <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py-0.5 mt-1`}>{i.status}</p>
                 </div>
+
+                {i.status.toLowerCase() === 'completed' && <div className=' flex gap-1 mt-2'>
+                  {[...Array(5)].map((_, idx) => {
+                    const currentRating = i.rating?.stars || 0;
+                    const isFilled = idx < currentRating;
+                    return (
+                      <button
+                        key={idx}
+                        hidden={i.writer.id === user?.id && !i.rating}
+                        disabled={i.writer.id === user?.id || i.rating?.stars > 0}
+                        onClick={() => sumbitRattings.mutate({
+                          assignmentId: i.id,
+                          ratings: idx + 1,
+                          buyerId: i.buyer.id,
+                          writerId: i.writer.id,
+                        })}
+                      >
+                        <Star
+                          fill={isFilled ? ' #facc15 ' : ''}
+                          className={`${isFilled ? 'text-yellow-400' : 'text-gray-400'} cursor-pointer w-5 h-5`}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>}
+
               </div>
 
               <div className=' flex flex-col gap-3 items-end '>
@@ -108,7 +154,7 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
                   ₹{i.price}
                 </p>
                 {i.writer.id === user?.id && i.status.toLowerCase() !== 'completed' &&
-                  <button  onClick={() => setShowPopUp(i?.id)} className='px-3 py-1  bg-green-500 rounded-xl whitespace-nowrap'>Mark as Completed</button>}
+                  <button onClick={() => setShowPopUp(i?.id)} className='px-3 py-1  cursor-pointer bg-green-500 rounded-xl whitespace-nowrap'>Mark as Completed</button>}
               </div>
             </div>
           )
@@ -118,6 +164,10 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
   )
 }
 const PendingTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }) => {
+
+  const queryClient = useQueryClient();
+  const [showPopUp, setShowPopUp] = useState<null | string>(null)
+
   const updateStatus = useMutation({
     mutationFn: async (assignmentId: string) => {
       return await updateAssignmentStatus(assignmentId, 'COMPLETED')
@@ -131,8 +181,20 @@ const PendingTask = ({ data, user }: { data: TaskPageProps[], user: { id: string
       }
     }
   })
+
   return (
     <div className=' mt-10 flex flex-col gap-2 '>
+      {showPopUp && <div className=' w-full h-full fixed bg-black/30 backdrop-blur-[50px] px-6 top-0 left-0 z-50 flex justify-center items-center '>
+        <div className=' bordercolor p-5 rounded-lg '>
+          <h1 className=' text-lg font-semibold '>Are you sure you want to mark this assignment as completed?</h1>
+          <p className=' text-[10px]  text-gray-300'>Make sure you can't reverse the process. </p>
+          <div className=' flex gap-3 justify-end mt-5 '>
+            <button onClick={() => setShowPopUp(null)} className=' px-3 py-1 rounded-lg bg-gray-500 '>Cancel</button>
+            <button onClick={() => updateStatus.mutate(showPopUp)} className=' px-3 py-1 rounded-lg bg-blue-500 text-white '>Confirm</button>
+          </div>
+        </div>
+      </div>
+      }
       {
         data && data.map((i, idx) => {
           if (i.status.toLowerCase() !== 'pending') return null;
@@ -157,8 +219,8 @@ const PendingTask = ({ data, user }: { data: TaskPageProps[], user: { id: string
                 <p className=' text-3xl h-fit font-bold'>
                   ₹{i.price}
                 </p>
-                {i.writer.id === user?.id && i.status.toLowerCase() !== 'completed' && <button className='px-3 py-1  bg-green-500 rounded-xl whitespace-nowrap'>Mark as Completed</button>}
-              </div>
+                {i.writer.id === user?.id && i.status.toLowerCase() !== 'completed' &&
+                  <button onClick={() => setShowPopUp(i?.id)} className='px-3 py-1  cursor-pointer bg-green-500 rounded-xl whitespace-nowrap'>Mark as Completed</button>}              </div>
             </div>
           )
         })
@@ -167,6 +229,23 @@ const PendingTask = ({ data, user }: { data: TaskPageProps[], user: { id: string
   )
 }
 const CompletedTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }) => {
+
+  const queryClient = useQueryClient();
+  const sumbitRattings = useMutation({
+    mutationFn: async ({ assignmentId, ratings, buyerId, writerId }: { assignmentId: string, ratings: number, buyerId: string, writerId: string }) => {
+      return await rateAssignment(assignmentId, ratings, buyerId, writerId)
+    },
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        toastSuccess('Ratings submitted successfully');
+        queryClient.invalidateQueries({ queryKey: ['assignments'] })
+      }
+      else {
+        toastSuccess('Something went wrong');
+      }
+    }
+  })
+
   return (
     <div className=' mt-10 flex flex-col gap-2 '>
       {
@@ -188,6 +267,32 @@ const CompletedTask = ({ data, user }: { data: TaskPageProps[], user: { id: stri
                   <p>{i.status.toLowerCase() === 'pending' ? 'expected' : 'Completed on'}: {moment(i?.expectedDate).format('DD-MM-YYYY')}  </p>
                   <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py-0.5 mt-1`}>{i.status}</p>
                 </div>
+
+                {i.status.toLowerCase() === 'completed' && <div className=' flex gap-1 mt-2'>
+                  {[...Array(5)].map((_, idx) => {
+                    const currentRating = i.rating?.stars || 0;
+                    const isFilled = idx < currentRating;
+                    return (
+                      <button
+                        key={idx}
+                        hidden={i.writer.id === user?.id && !i.rating}
+                        disabled={i.writer.id === user?.id || i.rating?.stars > 0}
+                        onClick={() => sumbitRattings.mutate({
+                          assignmentId: i.id,
+                          ratings: idx + 1,
+                          buyerId: i.buyer.id,
+                          writerId: i.writer.id,
+                        })}
+                      >
+                        <Star
+                          fill={isFilled ? ' #facc15 ' : ''}
+                          className={`${isFilled ? 'text-yellow-400' : 'text-gray-400'} cursor-pointer w-5 h-5`}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>}
+
               </div>
 
               <div className=' flex flex-col gap-3 items-end '>

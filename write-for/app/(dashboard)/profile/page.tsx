@@ -1,8 +1,6 @@
 'use client'
-import { userProfile } from '@/actions/user.action'
 import CollageName from '@/components/collageName'
 import { useProfileInfoHook } from '@/hooks/useProfileinfo'
-import { useQuery } from '@tanstack/react-query'
 import { LogOut, Pencil, X } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
