@@ -19,7 +19,7 @@ const CreateTask = ({buyerId , setShowAssignPopup}:{buyerId:string , setShowAssi
             }
         },
         onError: (error) => {
-            console.log(error)
+
         }
     })
 
@@ -32,13 +32,13 @@ const CreateTask = ({buyerId , setShowAssignPopup}:{buyerId:string , setShowAssi
 
     }
     return (
-        <div className='assignpopupOpen absolute w-full left-0 bottom-0 z-20  backdrop-blur-[30px] bg-[#00000073] mt-10 bordercolor p-4 rounded-xl'>
+        <div className='assignpopupOpen absolute w-full left-0 bottom-0 z-20  backdrop-blur-[10px] bg-white/20 mt-10 bordercolor p-4 rounded-xl'>
             <p  onClick={ ()=>setShowAssignPopup(false)}className=' absolute top-2 right-2 '> <X /> </p>
             <form className=' flex flex-col gap-2' action={handleSubmit}>
                 <label htmlFor="">Amount</label>
-                <input className='py-2 border rounded-xl px-2  bg-[#ffffff21]' type="number" name="amount" required id="" />
+                <input className='py-2 rounded-xl px-2  border color ' type="number" name="amount" required id="" />
                 <label htmlFor="">Expected date</label>
-                <input className='py-2 border rounded-xl px-2  bg-[#ffffff21]' type="datetime-local" name="expectedDate" required id="" />
+                <input className='py-2 rounded-xl px-2 border color' type="datetime-local" name="expectedDate" required id="" />
                 <button className='center buttonbg mt-5 py-2 rounded-xl' type='submit'>{ createMutation.isPending ? <Loader className=' animate-spin ' /> : 'Sumbit'}</button>
             </form>
         </div>

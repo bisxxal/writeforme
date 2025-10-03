@@ -8,7 +8,7 @@ export default withAuth( async function middleware(req: NextRequest) {
     const { nextUrl } = req;
     const token = await getToken({ req })
     if (token && nextUrl.pathname === "/") {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+      return NextResponse.redirect(new URL("/profile", req.url));
     }
     return NextResponse.next()
   },
@@ -30,9 +30,9 @@ export const config = {
     "/dashboard/:path*",
     "/earnings/:path*",
     "/edit/:path*",
-    "/task/:path*",
-    "/writter/:path*",
     "/profile/:path*",
+    "/task/:path*",
+    "/writer/:path*",
   ],
 }
  

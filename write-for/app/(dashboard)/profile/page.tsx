@@ -1,5 +1,6 @@
 'use client'
 import CollageName from '@/components/collageName'
+import Loading from '@/components/ui/loading'
 import { useProfileInfoHook } from '@/hooks/useProfileinfo'
 import { LogOut, Pencil, X } from 'lucide-react'
 import { signOut } from 'next-auth/react'
@@ -12,7 +13,7 @@ const ProfilePage = () => {
   const [showCollege, setShowCollege] = useState(false);
 
   const router = useRouter();
-  const { data } = useProfileInfoHook()
+  const { data ,isLoading} = useProfileInfoHook()
 
   const [collageName, setCollageName] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -44,9 +45,9 @@ const ProfilePage = () => {
   }, [showCollege])
 
   useEffect(() => {
-     if(!localStorage.getItem('collageName') && data?.user?.collegeName){
+     if((!localStorage.getItem('collageName')  || !localStorage.getItem('district') ) && data?.user?.collegeName){
       localStorage.setItem('collageName', data?.user?.collegeName  );
-      localStorage.setItem('district', data?.user?.district?.toLowerCase()  || '' );
+      localStorage.setItem('district', data?.user?.district || '' );
      }
   }, [data])
 
@@ -62,15 +63,17 @@ const ProfilePage = () => {
       </div>
 
       <div className='mt-14 card border bordercolor rounded-2xl p-5 center flex-col gap-3 '>
-        {data?.user?.image && <div className=' relative '>
+        { isLoading ? 
+        <Loading child=' w-24 h-24 rounded-full' parent=' w-24  ' boxes={1} />
+        :  data?.user?.image && <div className=' relative '>
           <Image loading='lazy' src={data?.user?.image!} alt="User Avatar" width={40} height={40} className=' max-md: w-24  rounded-full' />
         { buyerMode  && <Link href={`/edit`} className=' absolute right-0 bottom-0 bg-white/10 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil className='textbase' size={20} /> </Link>}
         </div>}
-        <h1>{data?.user?.name}</h1>
+        <h1 className='text-2xl font-bold capitalize' >{data?.user?.name}</h1>
       </div>
 
       <div className='card between bordercolor rounded-2xl p-5  gap-3 '>
-        <p>Switch to {!buyerMode ? 'seller' : 'buyer'} mode</p>
+        <p>Switch to {!buyerMode ? 'Writer' : 'Buyer'} mode</p>
 
         <label className="inline-flex items-center cursor-pointer">
           <input type="checkbox" onClick={() => handelBuyerMode(!buyerMode)} checked={buyerMode} className="sr-only peer" />

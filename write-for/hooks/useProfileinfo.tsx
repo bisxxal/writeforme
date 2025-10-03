@@ -10,3 +10,4 @@ export const useProfileInfoHook = ()=>{
     });
     return  {data, isLoading};
 }
+

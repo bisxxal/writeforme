@@ -46,6 +46,7 @@ const TaskPage = () => {
       {
         isLoading && <Loading boxes={3} child='w-full h-full rounded-2xl' parent=' h-[650px] ' />
       }
+      { data?.data?.length === 0 && <p className=' text-center text-sm mt-20 opacity-[0.5] '>No Order found</p>}
     </div>
   )
 }
@@ -119,7 +120,7 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
                 <div>
                   <p>Order on: {moment(i?.createdAt).format('DD-MM-YYYY')}</p>
                   <p>{i.status.toLowerCase() === 'pending' ? 'expected' : 'Completed on'}: {moment(i?.expectedDate).format('DD-MM-YYYY')}  </p>
-                  <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py-0.5 mt-1`}>{i.status}</p>
+                  <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py- text-sm mt-1`}>{i.status}</p>
                 </div>
 
                 {i.status.toLowerCase() === 'completed' && <div className=' flex gap-1 mt-2'>
@@ -150,7 +151,7 @@ const AllTask = ({ data, user }: { data: TaskPageProps[], user: { id: string } }
               </div>
 
               <div className=' flex flex-col gap-3 items-end '>
-                <p className=' text-3xl h-fit font-bold'>
+                <p className=' text-3xl max-md:text-2xl h-fit font-bold'>
                   ₹{i.price}
                 </p>
                 {i.writer.id === user?.id && i.status.toLowerCase() !== 'completed' &&
@@ -211,7 +212,7 @@ const PendingTask = ({ data, user }: { data: TaskPageProps[], user: { id: string
                 <div>
                   <p>Order on: {moment(i?.createdAt).format('DD-MM-YYYY')}</p>
                   <p>{i.status.toLowerCase() === 'pending' ? 'expected' : 'Completed on'}: {moment(i?.expectedDate).format('DD-MM-YYYY')}  </p>
-                  <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py-0.5 mt-1`}>{i.status}</p>
+                  <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py- text-sm mt-1`}>{i.status}</p>
                 </div>
               </div>
 
@@ -265,7 +266,7 @@ const CompletedTask = ({ data, user }: { data: TaskPageProps[], user: { id: stri
                 <div>
                   <p>Order on: {moment(i?.createdAt).format('DD-MM-YYYY')}</p>
                   <p>{i.status.toLowerCase() === 'pending' ? 'expected' : 'Completed on'}: {moment(i?.expectedDate).format('DD-MM-YYYY')}  </p>
-                  <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py-0.5 mt-1`}>{i.status}</p>
+                  <p className={`${i.status.toLowerCase() === 'pending' ? 'border-yellow-600 bg-yellow-500/50  text-yellow-200 ' : 'text-green-200 bg-green-500/60 border-green-600 '} border rounded-full w-fit px-3 py- text-sm mt-1`}>{i.status}</p>
                 </div>
 
                 {i.status.toLowerCase() === 'completed' && <div className=' flex gap-1 mt-2'>

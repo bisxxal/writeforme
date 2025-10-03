@@ -20,20 +20,20 @@ export const userProfile = async () => {
                 name: true,
                 email: true,
                 image: true,
-                createdAt: true, 
-                isSellerModeActive: true, 
-                collegeName : true, 
-                district : true,
-                assignmentsWritten:{
-                    select:{
-                        id:true,
-                        status:true,
-                        price:true,
+                createdAt: true,
+                isSellerModeActive: true,
+                collegeName: true,
+                district: true,
+                assignmentsWritten: {
+                    select: {
+                        id: true,
+                        status: true,
+                        price: true,
                     }
                 },
-                ratingsReceived:{
-                    select:{
-                        stars:true
+                ratingsReceived: {
+                    select: {
+                        stars: true
                     }
                 }
             }
@@ -46,59 +46,56 @@ export const userProfile = async () => {
         return { status: 200, user };
 
     } catch (error) {
-        console.log(error)
         return { status: 500, message: 'Something went wrong' }
     }
 }
-export const createWritterProfile = async (type:'col'|'writer' , formData: FormData ) => {
+export const createWritterProfile = async (type: 'col' | 'writer', formData: FormData) => {
     try {
         const session = await getServerSession(authOptions)
         if (!session) {
             return { status: 400, message: "User not authenticated" };
         }
-      if(type==='writer'){
-          const description = formData.get('description') as string;
-        const pagePrice = formData.get('page') as string;
-        const digramsPrice = formData.get('digram') as string;
+        if (type === 'writer') {
+            const description = formData.get('description') as string;
+            const pagePrice = formData.get('page') as string;
+            const digramsPrice = formData.get('digram') as string;
 
-        const updatedUser = await prisma.user.update({
-            where: {
-                id: session.user?.id || ''
-            },
-            data: {
-                isSellerModeActive: true,
-                description,
-                pagePrice: pagePrice ? parseFloat(pagePrice) : null,
-                digramsPrice: digramsPrice ? parseFloat(digramsPrice) : null,
+            const updatedUser = await prisma.user.update({
+                where: {
+                    id: session.user?.id || ''
+                },
+                data: {
+                    isSellerModeActive: true,
+                    description,
+                    pagePrice: pagePrice ? parseFloat(pagePrice) : null,
+                    digramsPrice: digramsPrice ? parseFloat(digramsPrice) : null,
+                }
+            })
+            if (!updatedUser) {
+                return { status: 404, message: "User not found" };
             }
-        })
-        if (!updatedUser) {
-            return { status: 404, message: "User not found" };
+            return { status: 200, message: "Writter profile created successfully" };
         }
-        return { status: 200, message: "Writter profile created successfully" };
-      }
-    if(type==='col'){
-        const collegeName = formData.get('collegeName') as string;
-        const district = formData.get('district') as string;
-        
-        const updatedUser = await prisma.user.update({
-            where: {
-                id: session.user?.id || ''
-            },
-            data: {
-                collegeName,
-                district
+        if (type === 'col') {
+            const collegeName = formData.get('collegeName') as string;
+            const district = formData.get('district') as string;
+
+            const updatedUser = await prisma.user.update({
+                where: {
+                    id: session.user?.id || ''
+                },
+                data: {
+                    collegeName,
+                    district
+                }
+            })
+            if (!updatedUser) {
+                return { status: 404, message: "User not found" };
             }
-        })
-        console.log(updatedUser)
-         if (!updatedUser) {
-            return { status: 404, message: "User not found" };
+            return { status: 200, message: "Writter profile created successfully" };
         }
-        return { status: 200, message: "Writter profile created successfully" }; 
-      }
 
     } catch (error) {
-        console.log(error)
         return { status: 500, message: 'Something went wrong' }
     }
 }
@@ -155,14 +152,13 @@ export const deletePhotos = async (photoUrls: string[]) => {
         return { status: 200, message: "Photos deleted successfully" };
     }
     catch (error) {
-        console.log(error)
         return { status: 500, message: 'Something went wrong' }
     }
 }
 
-export const allWritters = async (district:string) => {
+export const allWritters = async (district: string) => {
     try {
-         const session = await getServerSession(authOptions)
+        const session = await getServerSession(authOptions)
         if (!session) {
             return { status: 400, message: "User not authenticated" };
         }
@@ -180,9 +176,9 @@ export const allWritters = async (district:string) => {
                 showsCasePhotos: true,
                 description: true,
                 pagePrice: true,
-                ratingsReceived:{
-                    select:{
-                        stars:true,
+                ratingsReceived: {
+                    select: {
+                        stars: true,
                     }
                 },
                 collegeName: true,
@@ -192,26 +188,26 @@ export const allWritters = async (district:string) => {
 
         return { status: 200, writters };
     } catch (error) {
-
     }
 }
-export const singleWritter = async (id: string) => {
+export const singleWritter = async (id: string , type:'E'|'W') => {
     try {
+        const session = await getServerSession(authOptions)
+        
         const writters = await prisma.user.findUnique({
             where: {
-                id: id
+                id: type==='W' ? id : session?.user?.id
             },
             select: {
                 id: true,
                 name: true,
-                email: true,
                 image: true,
                 description: true,
                 pagePrice: true,
                 collegeName: true,
-                ratingsReceived:{
-                    select:{
-                        stars:true,
+                ratingsReceived: {
+                    select: {
+                        stars: true,
                     }
                 },
                 digramsPrice: true,

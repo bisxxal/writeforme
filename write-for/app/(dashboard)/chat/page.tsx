@@ -15,7 +15,6 @@ const ChatPage = () => {
 
   return (
     <div className=' w-full px-10 max-md:px-4'>
-      {/* <ChatUsers data={data} isLoading={isLoading} />x  */}
       <Charts userId={data?.userId} chats={data} isLoading={isLoading} />
     </div>
   )

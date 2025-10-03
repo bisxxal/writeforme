@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
-const SellerMode = ({data , isLoading}) => {
+const WriterMode = ({data , isLoading}) => {
 
 
   const [ratings , setRatings] = useState(0);
@@ -33,7 +33,7 @@ const SellerMode = ({data , isLoading}) => {
   return (
     <div className=' w-full px-10  max-md:px-4 pb-20 pt-10 mt-20'>
 
-      { !isLoading && data?.isSellerModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
+      { !isLoading && data?.isWriterModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
         <p>Complete your writter profile to start receving assignment</p>
         <Link className='buttonbg bg-blue-600 w-fit p-1 px-4 rounded-full' href='edit'>Active Now</Link>
       </div>}
@@ -88,4 +88,4 @@ const SellerMode = ({data , isLoading}) => {
   )
 }
 
-export default SellerMode
+export default WriterMode

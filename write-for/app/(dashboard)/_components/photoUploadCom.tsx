@@ -63,7 +63,6 @@ const PhotoUploadCom = ({ data, isLoading }: { data: { showsCasePhotos: string[]
     const formData = new FormData();
     files.forEach(file => formData.append('photos', file));
     uploadMutation.mutate(formData);
-    // console.log(formData);
   };
 
 

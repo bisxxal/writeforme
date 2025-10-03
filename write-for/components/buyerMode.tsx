@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import Loading from './ui/loading'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
+import KitImage from './ui/KitImage'
 
 const BuyerMode = () => {
 
@@ -20,13 +21,10 @@ const BuyerMode = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['writters', district],
     queryFn: async () => {
-      return await allWritters(district)
+      return await allWritters(district as string);
     },
   })
-
   const [sortedWritters, setSortedWritters] = useState<any[]>([]);
-
-
   useEffect(() => {
 
     const writersWithRating = data?.writters.map(writer => {
@@ -39,9 +37,9 @@ const BuyerMode = () => {
   }, [data])
 
   return (
-    <div className='min-h-screen w-full px-20  max-md:px-4'>
+    <div className='min-h-screen w-full px-20 pb-20 max-md:px-4'>
 
-      <p className=' mt-5 font-bold text-3xl max-md:text-2xl'>Writers near by you</p>
+      <p className=' mt-7 font-bold text-3xl max-md:text-2xl'>Writers near by you</p>
 
       <div className='flex gap-3 px-5 max-md:px-2 scrollbar overflow-x-auto  w-full mt-4  p-1 text-sm'>
 
@@ -49,10 +47,24 @@ const BuyerMode = () => {
           const total = writer.ratingsReceived?.reduce((acc: { stars: number }, curr: { stars: number }) => Number(acc) + Number(curr.stars), 0) || 0;
           const average = writer.ratingsReceived?.length ? (total / writer.ratingsReceived.length) : 0;
           return (
-            <Link href={`writter/${writer.id}`} key={writer.id} className=' !min-w-[200px] !min-h-[250px] card bordercolor rounded-2xl overflow-hidden'>
-              <img src={writer?.showsCasePhotos[0]} className=' object-cover w-full h-[160px]' alt="" />
+            <Link href={`writer/${writer.id}`} key={writer.id} className='pb-1 !min-w-[200px] !min-h-[250px] card bordercolor rounded-2xl overflow-hidden'>
+               <KitImage
+                    loading='lazy'
+                    className='object-cover w-full h-[160px]'
+                    src={writer?.showsCasePhotos[0]} 
+                    alt=''
+                    width={200}
+                    height={200}
+                />
               <div className='flex px-2 mt-2'>
-                <Image height={200} width={200} className=' w-10 rounded-full ' src={writer?.image || ""} alt="" />
+                 <KitImage
+                    loading='lazy'
+                    className=' w-10 rounded-full '
+                   src={writer?.image || "/user.jpg"} 
+                    alt=''
+                    width={50}
+                    height={50}
+                />
                 <div className=' between w-full ml-5'>
                   <p className=' mt-1'>{writer?.name}</p>
                   <h2 className=' text-lg'>₹ {writer?.pagePrice}</h2>
@@ -81,23 +93,30 @@ const BuyerMode = () => {
       </div>
 
 
-      <p className=' my-5 mt-10 font-bold text-3xl max-md:text-2xl'>Top writers</p>
+      <p className=' my-5 mt-10 font-bold text-3xl max-md:text-2xl'>Top Writers</p>
 
       <div>
         {data && !isLoading && data?.writters && data?.writters?.length > 0 ? sortedWritters.map((writer) => {
           const total = writer.ratingsReceived?.reduce((acc: { stars: number }, curr: { stars: number }) => Number(acc) + Number(curr.stars), 0) || 0;
           const average = writer.ratingsReceived?.length ? (total / writer.ratingsReceived.length) : 0;
           return (
-            <Link href={`writter/${writer.id}`} key={writer.id} className=' card bordercolor h-[200px] max-md:h-[230px] overflow-hidden p-2 pr-6 mt-2 flex gap-3 rounded-2xl'>
+            <Link href={`writer/${writer.id}`} key={writer.id} className='relative card bordercolor h-[200px] max-md:h-[230px] p-2 pr-6 mt-2 flex gap-3 rounded-2xl'>
 
-            <div className=' flex justify-between w-full items-center max-md:flex-col max-md:justify-start max-md:items-end max-md:gap-1'>
+            <div className='overflow-hidden flex justify-between w-full items-center max-md:flex-col max-md:justify-start max-md:items-end max-md:gap-1'>
 
                 <div className='max-md:w-full flex gap-5 max-md:gap-2  h-full max-md:h-fit '>
-                <Image height={200} width={200} className='w-[200px] max-md:min-w-[140px] object-cover rounded-2xl max-md:h-[140px] ' src={writer?.showsCasePhotos[0]} alt="" />
+                  <KitImage
+                    loading='lazy'
+                    className='w-[200px] max-md:max-w-[140px] object-cover rounded-2xl max-md:h-[140px] '
+                    src={writer?.showsCasePhotos[0]} 
+                    alt=''
+                    width={200}
+                    height={200}
+                />
 
                 <div className=' flex flex-col'>
                   <div className='flex   gap-3 mt-2'>
-                    <Image height={200} width={200} className=' w-10 rounded-full ' src={writer?.image || ""} alt="" />
+                    <Image height={50} width={50} className=' w-10 rounded-full ' src={writer?.image || ""} alt="" />
                     <p className=' capitalize mt-1'>{writer?.name}</p>
                   </div>
 
@@ -105,7 +124,6 @@ const BuyerMode = () => {
                   <p className=' mt-2 text-sm max-md:text-xs'>{writer?.collegeName}</p>
                 </div>
               </div>
-
 
               <div className='px-2 my-1 flex flex-col justify-center    items-end'>
                 <p className=' textbase text-4xl max-md:text-3xl font-bold'>  {Number(Number(average).toFixed(1)) !== 0 && average.toFixed(1)}</p>
@@ -119,6 +137,10 @@ const BuyerMode = () => {
                 </p>
               </div>
             </div>
+
+          {Number(Number(average).toFixed(1)) >= 3.5  &&  <div className=' absolute px-2 py-1 text-xs -top-1 -right-2 rounded-full buttonbg'>
+                Recommended
+            </div>}
             </Link>
           )
         }

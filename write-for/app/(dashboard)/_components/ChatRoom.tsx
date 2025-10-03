@@ -4,7 +4,7 @@ import Back from '@/components/ui/back';
 import { useRouter } from 'next/navigation';
 import { demoMessages, dummyMessages, dummyUserId, formatDateLabel } from '@/lib/utils';
 import LoadingCom from '@/components/ui/loading';
-import { Ban, CircleEllipsis, Loader, Send, Trash } from 'lucide-react'
+import { Ban, EllipsisVertical, Loader, Send, Trash } from 'lucide-react'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { useSocket } from '@/hooks/useSocket';
@@ -183,7 +183,6 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
       });
     }
   };
-  // console.log(messages, 'messages');
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -227,12 +226,16 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           {user && <>
             <div className=' flex gap-3 items-center pr-3 '>
               <Image height={50} width={50} className=' w-10 h-10 rounded-full ' src={user?.image} alt="" />
+
+              <div className=' flex flex-col '>
               <h1 className=' text-lg textbase font-semibold'>{user.name}</h1>
-            </div>
-            {
+              {
               onlineUser && onlineUser.includes(user?.id) && (
-                <span className='  w-2 h-2 rounded-full bg-green-500'> </span>
+                <span className=' text-sm  '> online </span>
               )}
+              </div>
+            </div>
+            
           </>
 
           }
@@ -242,12 +245,12 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
 
           <div className='relative group'>
             <label htmlFor='is'>
-              <p><CircleEllipsis className=' textbase ' size={20} /></p>
+              <p><EllipsisVertical className=' textbase ' size={20} /></p>
             </label>
             <input type="checkbox" hidden id="is" />
             <div className='group-has-checked:flex hidden absolute  py-4 w-52 flex flex-col gap-2 border  text-white p-2 border-black/10 rounded-2xl bg-black/50 !backdrop-blur-[10px] -left-[180px] '>
-              <h1 className=' pl-10 cursor-pointer border-b pb-2 border-black/10 ' onClick={() => setShowPopUp(!showPopUp)}>Clear all chat</h1>
-              <p className=' pl-10 cursor-pointer border-b pb-2 border-black/10 ' onClick={() => setShowAssignPopup(!showAssignPopup)}>Create assigenment</p>
+              <h1 className=' pl-5 cursor-pointer border-b pb-2 border-black/10 ' onClick={() => setShowPopUp(!showPopUp)}>Clear all chat</h1>
+              <p className=' pl-5 cursor-pointer border-b pb-2 border-black/10 ' onClick={() => setShowAssignPopup(!showAssignPopup)}>Create assigenment</p>
             </div>
           </div>
         }
@@ -321,7 +324,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
                   </div>
                 );
               }
-              ) : <p className='text-white px-4 py-3 rounded-3xl  border w-fit mt-[30vh] mx-auto border-white/80 font-medium  backdrop-blur-[40px] '>say hii 👋🏻  to start message </p>
+              ) : <p className='text-white px-4 py-3 bg-white/20 rounded-3xl  border w-fit mt-[30vh] mx-auto border-white/30 font-medium  backdrop-blur-[3px] '>say hii 👋🏻  to start message </p>
             )
           }
           <div ref={bottomRef} />
@@ -334,7 +337,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
           <div className='flex gap-2 w-full mb-4 py-2 scrollbar overflow-x-scroll '>
             {
               demoMessages.map((msg, index) => (
-                <p key={index} onClick={() => setNewMessage(msg)} className="w-full bordercolor bg-[#00000012] backdrop-blur-[40px]  cursor-pointer whitespace-nowrap h-fit px-2 py-1    sidebarbg text-black/60 rounded-2xl ">
+                <p key={index} onClick={() => setNewMessage(msg)} className="w-full bordercolor bg-white/20 backdrop-blur-[3px]  cursor-pointer whitespace-nowrap h-fit px-2 py-1 rounded-2xl ">
                   {msg}
                 </p>
               ))

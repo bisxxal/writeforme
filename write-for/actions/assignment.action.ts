@@ -27,15 +27,12 @@ export const createAssignment = async (formData: FormData) => {
                 expectedDate: expectedDate ? new Date(expectedDate) : new Date(),
             }
         })
-
-        console.log(res)
-
         if (res) {
             return JSON.parse(JSON.stringify({ status: 200, message: 'Assignment created successfully' }));
         }
         return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
     } catch (error) {
-        console.log(error)
+
     }
 }
 
@@ -85,7 +82,7 @@ export const getAssignments = async () => {
         }
         return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
     } catch (error) {
-        console.log(error)
+
     }
 }
 
@@ -115,7 +112,7 @@ export const updateAssignmentStatus = async (assignmentId: string, status: 'PEND
         }
         return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
     } catch (error) {
-        console.log(error)
+
     }
 }
 
@@ -145,6 +142,6 @@ export const rateAssignment = async (assignmentId: string, rating: number , buye
 
     }
     catch (error) {
-        console.log(error)
+
     }
 }

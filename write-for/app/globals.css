@@ -57,7 +57,7 @@ body {
   background: #2c155326;;
 }
 input{
-  @apply border-none outline-none  bg-[#2c155326];
+  @apply  outline-none  bg-[#2c155326];
 }
 .bordercolor{
   @apply border border-[#433d7b69];

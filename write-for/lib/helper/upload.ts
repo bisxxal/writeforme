@@ -32,7 +32,6 @@ export async function uploadFile(formData: FormData, userId: string) {
       }
     })
 
-    console.log(res);
   }
 
 }

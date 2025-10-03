@@ -15,7 +15,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className="min-h-screen relative bg-zinc-950 text-zinc-100 flex items-center justify-center px-6">
+    <div className="min-h-screen relative text-zinc-100 flex items-center justify-center px-6">
 
       <Back className=' absolute top-10 left-10 z-[20] text-white' />
       {/* Background Image with Overlay */}

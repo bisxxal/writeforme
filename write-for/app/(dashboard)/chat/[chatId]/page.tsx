@@ -9,5 +9,4 @@ export default async function ChatPage({ params }: { params: { chatId: string } 
   const currentUserId = session?.user.id as string
   const {chatId} =  await params;
   return <ChatRoom chatId={chatId} currentUserId={currentUserId} />;
-  // return <NewChatRoom chatId={chatId} currentUserId={currentUserId} />;
 }
