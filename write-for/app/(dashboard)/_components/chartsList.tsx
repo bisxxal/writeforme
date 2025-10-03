@@ -29,8 +29,7 @@ interface Chat {
 
 type ChartsProps = Chat[];
 const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: string, isLoading:boolean }) => {
-
-    const { onlineUser } = useSocket({ userId: userId! }) as { socket: any; ready: boolean; onlineUser: string[] };
+    const { onlineUser } = useSocket({ userId: userId }) as { socket: any; ready: boolean; onlineUser: string[] };
 
     return (
         <div className='flex flex-col w-full'>
@@ -56,7 +55,7 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
                                 {item.chat.participants
                                     .filter((participant) => participant.user.id !== userId)
                                     .map((participant, index) => (
-                                        <div key={index} className='flex  w-full items-center pr-6 justify-between gap-2'>
+                                        <div key={index} className='flex w-full items-center pr-6 max-md:pr-2 justify-between gap-2'>
                                             <div className=' flex items-center gap-2'>
                                                 <KitImage
                                                     loading='lazy'
@@ -71,20 +70,17 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
                                                         {participant.user.name}
                                                     </h1>
                                                     {item?.chat?.messages[0]?.content && (
-                                                        <p className=' pl-3 text-sm text-blue-400 center gap-2'>
+                                                        <p className=' pl-3 text-xs text-blue-400 center gap-2'>
                                                             <CornerDownLeft size={21} />
                                                             {item?.chat?.messages[0]?.content.split(' ').slice(0, 10).join(' ')}
-                                                            <span className='text-xs text-gray-400 mt-1'>
-                                                                {moment(item?.chat?.messages[0]?.createdAt).format(
-                                                                    'LT MMM Do '
-                                                                )}
-                                                            </span>
                                                         </p>
                                                     )}
                                                 </div>
                                             </div>
 
-                                            <div>
+                                            <div className=' flex flex-col items-end '>
+                                                 <span className='text-xs whitespace-nowrap text-gray-400 mt-1'>
+                                                    {moment(item?.chat?.messages[0]?.createdAt).format('LT  ')}</span>
                                                 {
                                                     onlineUser && participant.user.id && onlineUser.includes(participant?.user?.id) && (
                                                         <span className='text-xs text-green-500'>Online</span>

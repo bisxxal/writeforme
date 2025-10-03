@@ -102,7 +102,7 @@ export const getChatUsers = async () => {
             }
         })
 
-        return JSON.parse(JSON.stringify(chats));
+        return JSON.parse(JSON.stringify({chats, userId: session.user.id}));
     } catch (error) {
 
     }

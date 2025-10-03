@@ -1,9 +1,18 @@
 'use client'
 
 import { Search, Star } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AssignmentMarketplace() {
+  const { data, status } = useSession();
+  
+    const router = useRouter()
+    if (data?.user && status === 'authenticated') {
+      router.push('/dashboard');
+    }
+
   const writers = [
     {
       id: 1,
@@ -34,21 +43,18 @@ export default function AssignmentMarketplace() {
   return (
     <div className="min-h-screen  ">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black">
+      <div className="relative overflow-  bg-gradient-to-br from-zinc-900 via-zinc-950 to-black">
         <div className="absolute inset-0 opacity-40">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?q=80&w=2146&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
-            <div className="center gap-3">
-
-              <p className='text-6xl font-extrabold mb-4 bg-gradient-to-r from-[#a860e3] to-[#5A189A] bg-clip-text text-transparent'>       Write For Me</p>
-
-              <img src="/logo.png" className=" duration-700 hover:scale-[1.3] transition-all w-28 h-28 " alt="" />
-
+            <div className="center gap-3 max-md:gap-0">
+              <p className='text-6xl max-md:text-4xl font-extrabold mb-4 bg-gradient-to-r from-[#a860e3] to-[#5A189A] bg-clip-text text-transparent'>       Write For Me</p>
+              <img src="/logo.png" className="animate-logo duration-700 hover:scale-[1.3] transition-all w-28 h-28 " alt="" />
             </div>
-            <p className="text-xl text-zinc-400">Connect writers with those who need quality work</p>
+            <p className="text-xl max-md:text-lg text-zinc-400">Connect writers with those who need quality work</p>
           </div>
 
           {/* Search Bar */}
@@ -58,7 +64,7 @@ export default function AssignmentMarketplace() {
               <input
                 type="text"
                 placeholder="Search by writer, college name , or district..."
-                className="w-full !border-none bg-zinc-900/20 backdrop-blur-[20px] border border-zinc-800 rounded-2xl pl-12 pr-4 py-4 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full !border-none bg-zinc-900/20 backdrop-blur-[20px]  rounded-2xl pl-12 max-md:pl-5 pr-4 py-4 text-zinc-100 placeholder-zinc-500 outline-none"
               />
             </div>
           </div>

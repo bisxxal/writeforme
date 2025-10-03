@@ -45,7 +45,7 @@ const Dashboard = () => {
 
       {
         modeLoading ? <div className=' w-full min-h-screen center'>
-        </div> : !buyerMode ? <BuyerMode /> : <WriterMode isLoading={isLoading} data={data?.user} />}
+        </div> : !buyerMode ? <BuyerMode userId={data?.user?.id} /> : <WriterMode isLoading={isLoading} data={data?.user} />}
 
     </div>
   )

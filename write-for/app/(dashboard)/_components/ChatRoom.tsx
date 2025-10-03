@@ -287,6 +287,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
 
               {msgs.map((msg) => {
                 const isSelected = selectedMessages.has(msg?.id);
+                console.log(msg)
                 return (
                   <div
                     key={msg?.id}
@@ -298,14 +299,14 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
                     className={`relative w-full mt-3 cursor-pointer flex flex-col text-base font-normal cursor-pointer`}>
 
                     {isSelected && <div className=' w-full rounded-lg bas buttonbg opacity-[0.4] z-[10] h-full top-0 left-0 absolute'></div>}
-                    <div className={` max-w-[80%] w-fit px-5 py-1.5 ${msg?.senderId === currentUserId
+                    <pre className={` max-w-[80%] w-fit font-sa px-5 py-1.5 ${msg?.senderId === currentUserId
                       ? ' buttonbg text-white rounded-b-2xl rounded-l-2xl ml-auto'
                       : ' backdrop-blur-[5px] bg-white/10 bordercolor  rounded-b-2xl rounded-r-2xl'}`}>
                       <p className='max-w-[99%]'>{msg?.content}</p>
                       <p className="text-xs opacity-70 text-right">
                         {moment(msg?.createdAt).format('LT')}
                       </p>
-                    </div>
+                    </pre>
 
                   </div>
                 );

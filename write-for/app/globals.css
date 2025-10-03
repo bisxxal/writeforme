@@ -139,3 +139,30 @@ input{
     transform: translateY(0);
   }
 }
+pre{
+  font-family: inherit !important;
+}
+
+/* .animate-logo {
+  animation: scan-z-pattern 3s linear alternate;
+  position: absolute;
+
+} */
+
+@keyframes scan-z-pattern {
+  0% {
+    transform: translate(30vw, 30vh); /* Top-left */
+  }
+  25% {
+    transform: translate(80vw, 0vh); /* Top-right */
+  }
+  50% {
+    transform: translate(0vw, 80vh); /* Bottom-left (diagonal cross) */
+  }
+  75% {
+    transform: translate(80vw, 80vh); /* Bottom-right */
+  }
+  100% {
+    transform: translate(30vw, 30vh); /* Back to Top-left */
+  }
+}

@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body >
         <QuaryClient >
           <Toaster position="top-right"reverseOrder={false} />
           <div className=" relative w-full min-h-screen ">
