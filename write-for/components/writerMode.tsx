@@ -29,11 +29,13 @@ const WriterMode = ({data , isLoading}) => {
     }
 
   }, [data]);
+
+  console.log(data)
  
   return (
     <div className=' w-full px-10  max-md:px-4 pb-20 pt-10 mt-20'>
 
-      { !isLoading && data?.isWriterModeActive !== true && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
+      { data?.isWriterModeActive === false && <div className='  flex-col card bordercolor p-3 rounded-lg flex gap-5 '>
         <p>Complete your writter profile to start receving assignment</p>
         <Link className='buttonbg bg-blue-600 w-fit p-1 px-4 rounded-full' href='edit'>Active Now</Link>
       </div>}

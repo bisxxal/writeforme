@@ -58,8 +58,8 @@ const ProfilePage = () => {
         <CollageName showCollege={showCollege} setShowCollege={setShowCollege} />
       </div>}
 
-      <div className=' absolute max-md:top-0 top-2 backdrop-blur-[4px] bordercolor p-2 rounded-full px-3 right-5'>
-        <button className=' textbase' onClick={() => signOut()}><LogOut /></button>
+      <div className=' absolute max-md:top-0 top-2 backdrop-blur-[4px] bordercolor p-2 pt-3 rounded-full px-3 right-5'>
+        <button className=' text-red-500 ' onClick={() => signOut()}><LogOut /></button>
       </div>
 
       <div className='mt-14 card border bordercolor rounded-2xl p-5 center flex-col gap-3 '>
@@ -67,7 +67,7 @@ const ProfilePage = () => {
         <Loading child=' w-24 h-24 rounded-full' parent=' w-24  ' boxes={1} />
         :  data?.user?.image && <div className=' relative '>
           <Image loading='lazy' src={data?.user?.image!} alt="User Avatar" width={40} height={40} className=' max-md: w-24  rounded-full' />
-        { buyerMode  && <Link href={`/edit`} className=' absolute right-0 bottom-0 bg-white/10 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil className='textbase' size={20} /> </Link>}
+        { buyerMode  && <Link href={`/edit`} className=' absolute right-0 bottom-0 bg-white/40 backdrop-blur-[10px] p-2 rounded-4xl '>  <Pencil className='text-blue-500' size={20} /> </Link>}
         </div>}
         <h1 className='text-2xl font-bold capitalize' >{data?.user?.name}</h1>
       </div>

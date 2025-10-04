@@ -41,7 +41,7 @@ const WritterPersonalPage = () => {
         }
 
         <div>
-          <p className=' text-xl font-bold'>{data?.writters?.name}</p>
+          <p className='capitalize text-xl font-bold'>{data?.writters?.name}</p>
           <p className=' text-xs'>{data?.writters?.collegeName}</p>
         </div>
       </div>
