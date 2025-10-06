@@ -29,6 +29,7 @@ export const userProfile = async () => {
                         id: true,
                         status: true,
                         price: true,
+                        expectedDate: true,
                     }
                 },
                 ratingsReceived: {

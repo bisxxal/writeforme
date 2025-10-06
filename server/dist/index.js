@@ -14,6 +14,9 @@ app.use(cors({
     credentials: true,
 }));
 app.use("/api/chart", chat);
+app.get('/', (req, res) => {
+    res.send('Hello World');
+});
 const port = process.env.PORT || 8000;
 initSocket(httpServer);
 httpServer.listen(port, () => {

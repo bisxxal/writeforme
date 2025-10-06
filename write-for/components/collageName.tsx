@@ -21,19 +21,20 @@ const CollageName = ({ setShowCollege, showCollege }: { setShowCollege: Dispatch
     const [searchTerm, setSearchTerm] = useState({ name: '', district: '' });
     const [filteredColleges, setFilteredColleges] = useState([]);
     const queryClient = useQueryClient();
-
+ 
     const handleSearch = debounce((term: string) => {
+
         if (!term.trim()) {
             setFilteredColleges([]);
             return;
         }
-
+        
+       term = term?.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
         const results = collageData.filter((college: any) => {
             const valuesToSearch = [
-                college.name,
-                college.state,
+                college.name.replace(/[^a-zA-Z0-9]/g, ''),
                 college.district,
-                college["ALL UNIVERSITIES"]
+                // college["ALL UNIVERSITIES"]
             ];
 
             return valuesToSearch.some((value) =>
@@ -84,20 +85,24 @@ const CollageName = ({ setShowCollege, showCollege }: { setShowCollege: Dispatch
     })
 
     return (
-        <div className="flex flex-col items-center  p-4">
+        <div className="flex flex-col w-full items-center  p-4">
 
-            <div className="flex justify-between !gap-2 bg-[#ffffff27] rounded-xl border-gray-300  items-center max-w-full  p-2 mb-6">
+            <div className="flex justify-between !gap-2 bg-[#ffffff27] rounded-xl border-gray-300 max-md:w-[95%]  items-center w-[60%] p-2 mb-6">
                 <input
                     type="text"
                     placeholder="Search colleges by name, state, district..."
                     value={searchTerm.name}
                     onChange={(e) => setSearchTerm({ name: e.target.value, district: searchTerm.district })}
-                    className="w-[400px] max-md:w-[300px] p-2   "
+                    className="w-full max-md:w-[300px] p-2   "
                 />
                 <p onClick={() => setShowCollege(false)} className=' text-xl'><X /></p>
             </div>
 
-            <div className=" w-full overflow-y-auto max-h-[650px] rounded-xl  ">
+            {filteredColleges.length > 0 &&
+                <span className=" textbase font-medium mb-3">{filteredColleges.length} found</span>
+            }
+
+            <div className=" overflow-y-auto max-h-[650px] max-md:w-[95%] w-[60%] rounded-xl  ">
                 {filteredColleges.length > 0 ? (
                     filteredColleges.map((college: any, index: number) => (
                         <div key={index} onClick={() => onclickHandler(college.name, college.district)} className="p-2 mb-2 bordercolor rounded-xl shadow-sm boxanimation card ">

@@ -10,7 +10,7 @@ export default function AssignmentMarketplace() {
   
     const router = useRouter()
     if (data?.user && status === 'authenticated') {
-      router.push('/dashboard');
+      router.push('/profile');
     }
 
   const writers = [
@@ -71,7 +71,7 @@ export default function AssignmentMarketplace() {
 
           <div className=' w-full center'>
             <Link href="/sign-in" className="duration-500 hover:scale-[1.1] transition-all items-center gap-2 buttonbg text-white py-3 px-6 rounded-xl font-medium ">
-              Sign in to find a writer
+             Find Writer
             </Link>
           </div>
 

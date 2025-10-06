@@ -72,7 +72,9 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
                                                     {item?.chat?.messages[0]?.content && (
                                                         <p className=' pl-3 text-xs text-blue-400 center gap-2'>
                                                             <CornerDownLeft size={21} />
-                                                            {item?.chat?.messages[0]?.content.split(' ').slice(0, 10).join(' ')}
+                                                          <pre>
+                                                              {item?.chat?.messages[0]?.content.split(' ').slice(0, 10).join(' ')}
+                                                          </pre>
                                                         </p>
                                                     )}
                                                 </div>

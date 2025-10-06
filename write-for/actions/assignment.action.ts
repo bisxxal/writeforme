@@ -56,10 +56,10 @@ export const getAssignments = async () => {
                 status: true,
                 createdAt: true,
                 expectedDate: true,
-                rating:{
-                  select:{
-                    stars:true
-                  }  
+                rating: {
+                    select: {
+                        stars: true
+                    }
                 },
                 buyer: {
                     select: {
@@ -103,7 +103,7 @@ export const updateAssignmentStatus = async (assignmentId: string, status: 'PEND
             },
             data: {
                 status,
-                expectedDate:  new Date()  
+                expectedDate: new Date()
             }
         })
 
@@ -116,7 +116,7 @@ export const updateAssignmentStatus = async (assignmentId: string, status: 'PEND
     }
 }
 
-export const rateAssignment = async (assignmentId: string, rating: number , buyerId:string, writerId:string) => {
+export const rateAssignment = async (assignmentId: string, rating: number, buyerId: string, writerId: string) => {
     try {
         const session = await getServerSession(authOptions);
         if (!session) {
@@ -145,3 +145,32 @@ export const rateAssignment = async (assignmentId: string, rating: number , buye
 
     }
 }
+
+export const getTransactionsBySelectedMonth = async (selectedMonth:number, selectedYear:number) => {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return JSON.parse(JSON.stringify({ status: 500, message: 'Not authorized user' }));
+        }
+
+        const completedAssignments = await prisma.assignment.findMany({
+            where: {
+                writerId: session.user?.id || '',
+                status: 'COMPLETED',
+                expectedDate: {
+                    gte: new Date(selectedYear, selectedMonth, 1),
+                    lt: new Date(selectedYear, selectedMonth + 1, 1)
+                }
+            },
+            select: {
+                price: true,
+                expectedDate: true,
+            }
+        });
+
+
+        return JSON.parse(JSON.stringify({ status: 200, data: completedAssignments }));
+    } catch (error) {
+        return JSON.parse(JSON.stringify({ status: 500, message: 'Something went wrong' }));
+    }
+}   
