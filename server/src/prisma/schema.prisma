@@ -30,12 +30,11 @@ model User {
   // Relations
   assignmentsBought   Assignment[] @relation("BuyerAssignments")
   assignmentsWritten  Assignment[] @relation("WriterAssignments")
-  // messages            Message[]    @relation("UserMessages")
   ratingsGiven        Rating[]     @relation("BuyerRatings")
   ratingsReceived     Rating[]     @relation("WriterRatings")
   transactions        Transaction[]
 
-    messages     Message[]
+  messages     Message[]
   participants ChatParticipant[]
 
   createdAt DateTime  @default(now())
@@ -53,9 +52,9 @@ model Chat {
 
 model ChatParticipant {
   id      String  @id @default(cuid())
-  userId  String
+  userId  String 
   chatId  String
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade) 
   chat    Chat    @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   @@unique([userId, chatId])
@@ -77,9 +76,7 @@ model Message {
 }
 
 model Assignment {
-  id          String    @id @default(cuid())
-  title       String
-  description String
+  id          String    @id @default(cuid())   
   price       Float
   status      AssignmentStatus @default(PENDING)
 
@@ -90,12 +87,13 @@ model Assignment {
   writerId String
   writer   User      @relation("WriterAssignments", fields: [writerId], references: [id])
 
-  ratings  Rating[]
-
+  ratingId String?
+  rating   Rating?
+  
   transaction Transaction[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  expectedDate DateTime @default(now())
 }
 
  
@@ -110,8 +108,8 @@ model Rating {
   writerId  String
   writer    User     @relation("WriterRatings", fields: [writerId], references: [id])
 
-  assignmentId String
-  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId String @unique
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 }
