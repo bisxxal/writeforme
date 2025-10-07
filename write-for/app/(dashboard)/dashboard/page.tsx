@@ -1,5 +1,6 @@
 'use client'
 import BuyerMode from '@/components/buyerMode';
+import Navbar from '@/components/navbar';
 import WriterMode from '@/components/writerMode';
 import { useProfileInfoHook } from '@/hooks/useProfileinfo';
 import { useRouter } from 'next/navigation';
@@ -41,10 +42,10 @@ const Dashboard = () => {
   },[collageName,data])
 
   return (
-    <div>
-
+    <div className=' relative w-full min-h-screen mt-20 '>
+        <Navbar />
       {
-        modeLoading ? <div className=' w-full min-h-screen center'>
+        modeLoading ? <div className=' w-full mt-[70px] min-h-screen center'>
         </div> : !buyerMode ? <BuyerMode userId={data?.user?.id} /> : <WriterMode isLoading={isLoading} data={data?.user} />}
 
     </div>

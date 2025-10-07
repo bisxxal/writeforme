@@ -1,7 +1,5 @@
 
-import BottomBar from "@/components/buttombar";
- 
-export default function DashboardLayout({
+export default function ChatLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -9,7 +7,6 @@ export default function DashboardLayout({
   return (
     <main className=" w-full">
         {children}
-      <BottomBar />
     </main>
   );
 }

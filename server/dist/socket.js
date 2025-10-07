@@ -7,7 +7,7 @@ export const getReceiverSocketId = (receiverId) => {
 export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://datein.vercel.app'],
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://write-forme.vercel.app'],
             methods: ['GET', 'POST'],
             credentials: true
         },

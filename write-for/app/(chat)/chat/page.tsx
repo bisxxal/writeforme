@@ -1,8 +1,9 @@
 'use client'
 import React from 'react'
-import Charts from '../_components/chartsList'
 import { useQuery } from '@tanstack/react-query'
 import { getChatUsers } from '@/actions/chat.action'
+import Charts from '@/app/(dashboard)/_components/chartsList'
+import BottomBar from '@/components/buttombar'
 
 const ChatPage = () => {
 
@@ -14,9 +15,14 @@ const ChatPage = () => {
   });
 
   return (
-    <div className=' w-full px-10 max-md:px-4'>
+    <>
+    <div className=' relative w-full px-10 max-md:px-4'>
+      
       <Charts userId={data?.userId} chats={data?.chats} isLoading={isLoading} />
+
     </div>
+      <BottomBar />
+    </>
   )
 }
 

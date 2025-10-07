@@ -25,8 +25,9 @@ export const demoMessages = [
   "Hii 👋🏻",
   "What up?",
   "Hello?",
-  "Do you have any plans for the weekend?",
-  "What's your favorite hobby?",
-  "Have you read any good books recently?",
-  "Do you like to travel? Where have you been?",
+  "Are you there?",
+  "Can you help me with something?",
+  "I have a question about my order.",
+  "Can you provide more details about the product?",
+
 ]

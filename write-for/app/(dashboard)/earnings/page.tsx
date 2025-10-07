@@ -27,20 +27,6 @@ const EarningsPage = () => {
 
   useEffect(() => {
     if (data) {
-      // const r = data && data.data.reduce((acc, curr) => {
-      //   acc.completed += 1;
-      //   const date = moment(curr.expectedDate).format("DD-MM-YYYY");
-      //   const existing = acc.find((item) => item.date === date);
-
-      //   if (existing) {
-      //     existing.price += curr.price
-      //   }
-      //   else {
-      //     acc.push({ completed: 0 ,  date: moment(curr.expectedDate).format("DD-MM-YYYY"), price: curr.price })
-      //   }
-
-      //   return acc;
-      // }, [])
       const r = data && data.data.reduce((acc, curr) => {
         acc.completed += 1;
 
@@ -62,16 +48,12 @@ const EarningsPage = () => {
     }
 
   }, [data])
-
-
-
-
   return (
-    <div className=' w-full px-10 '>
+    <div className=' w-full px-10 max-md:px-4 pb-20 '>
       <h1 className=' text-2xl font-bold'> Earnings </h1>
 
 
-      <div className="flex  w-[90%] max-md:w-full mt-5 justify-between items-center p-4">
+      <div className="flex  w-[90%] max-md:w-full   justify-between items-center py-4">
         <h2 className="text-3xl max-md:lg font-bold">
           {new Date(selectedYear, selectedMonth).toLocaleString('default', { month: 'long', })}{' '}
           {selectedYear}

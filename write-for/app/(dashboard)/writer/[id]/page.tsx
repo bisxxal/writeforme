@@ -1,5 +1,6 @@
 'use client'
 import { createChatParticipant } from '@/actions/chat.action';
+import Back from '@/components/ui/back';
 import KitImage from '@/components/ui/KitImage';
 import Loading from '@/components/ui/loading';
 import { useSingleWriterHook } from '@/hooks/useSIngleWriter';
@@ -7,16 +8,16 @@ import { useMutation } from '@tanstack/react-query';
 import { Loader, Star } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 
 const WritterPersonalPage = () => {
   const params = useParams<{ id: string }>();
   const id = params?.id || '';
   const router = useRouter()
-
   const type = 'W'
-  const { data, isLoading } = useSingleWriterHook({id, type })
-
+  const { data, isLoading } = useSingleWriterHook({ id, type })
+  
+  const [showModal, setShowModal] = useState(false);
   const createChatMutation = useMutation({
 
     mutationFn: async (receiverId: string) => {
@@ -33,8 +34,11 @@ const WritterPersonalPage = () => {
   const total = data?.writters?.ratingsReceived?.reduce((acc: { stars: number }, curr: { stars: number }) => Number(acc) + Number(curr.stars), 0) || 0;
   const average = data?.writters?.ratingsReceived?.length ? (total / data?.writters.ratingsReceived.length) : 0;
 
+
+  // console.log(show)
   return (
-    <div className=' w-full min-h-screen px-10 max-md:px-5'>
+    <div className='relative w-full min-h-screen px-10 max-md:px-5'>
+      <Back className='mt-5 !ml-0' />
       <div className=' flex gap-5 items-center mt-10'>
         {!isLoading ? <Image width={50} height={50} src={data?.writters?.image || '/user.jpg'} className='rounded-full object-cover   h-[70px] w-[70px]   ' alt="" /> :
           <Loading boxes={1} parent=' w-[70px] h-[70px]  !items-start' child='  w-[70px] h-[70px] rounded-full' />
@@ -46,7 +50,7 @@ const WritterPersonalPage = () => {
         </div>
       </div>
 
-     {  !isLoading ? <div className='px-2 my-1 flex flex-col justify-center  items-end'>
+      {!isLoading ? <div className='px-2 my-1 flex flex-col justify-center  items-end'>
         <p className=' textbase text-4xl max-md:text-3xl font-bold'>  {Number(Number(average).toFixed(1)) !== 0 && average.toFixed(1)}</p>
         <p className=' flex gap-0.5'>
           {Number(Number(average).toFixed(1)) !== 0 ? Array.from({ length: 5 }).map((_, index) => {
@@ -57,23 +61,22 @@ const WritterPersonalPage = () => {
           }) : <span className=' text-gray-500 pl-2'>No ratings yet</span>}
         </p>
 
-      </div>:
-      <Loading boxes={1} parent='border w-full  mt-2' child=' w-full h-[55px] rounded-lg' />
+      </div> :
+        <Loading boxes={1} parent='border w-full  mt-2' child=' w-full h-[55px] rounded-lg' />
       }
 
 
       <div>
         <label className=' mt-5 block font-semibold text-xl'>Description</label>
-         { !isLoading ? <p className=' text-sm'>{data?.writters?.description}</p> :
-      <Loading boxes={1} parent='border w-full !flex-row  ' child=' w-full h-[40px] rounded-lg' />}
+        {!isLoading ? <p className=' text-sm'>{data?.writters?.description}</p> :
+          <Loading boxes={1} parent='border w-full !flex-row  ' child=' w-full h-[40px] rounded-lg' />}
 
 
         <label className=' mt-5 block font-semibold text-xl'>Showcase</label>
 
         <div className=' flex gap-3 overflow-x-auto py-3'>
           {data?.writters?.showsCasePhotos && data?.writters?.showsCasePhotos?.map((item: string, index: number) => (
-            // <Image width={100} height={100} key={index} src={item} className=' ' alt="" />
-             <KitImage loading='lazy'className='  w-[120px] h-[120px] object-cover rounded-lg 'src={item}alt=''width={100}height={100}
+            <KitImage onClick={() => {setShowModal(true); console.log('clicked' , showModal)} } loading='lazy' className=' cursor-pointer  w-[120px] h-[120px] object-cover rounded-lg ' src={item} alt='' width={100} height={100}
             />
           ))}
           {isLoading && <Loading boxes={3} parent='border !flex-row  !justify-start' child=' w-[120px] h-[120px] rounded-lg' />}
@@ -98,9 +101,57 @@ const WritterPersonalPage = () => {
         </div>
 
       </div>
+
+      <ImageModal images={ data?.writters?.showsCasePhotos} isOpen={showModal} onClose={() => setShowModal(false)} />
+
     </div>
   )
-  // }
 }
 
 export default WritterPersonalPage
+
+
+const ImageModal = ({ images, isOpen, onClose }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!isOpen || !images || images.length === 0) return null;
+
+  const goPrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const goNext = () => {
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <div className='fixed top-0 left-0 w-full h-full bg-black/10 backdrop-blur-[20px] z-50 flex justify-center items-center p-5'>
+      <button onClick={onClose} className='absolute top-5 right-5 text-white text-3xl'>&times;</button>
+
+      <button
+        onClick={goPrev}
+        className='absolute left-5 text-white text-4xl  cursor-pointer  font-bold z-50 px-3 py-2 '
+      >
+        &#8249;
+      </button>
+
+      <div className='relative max-w-full max-h-full rounded-lg overflow-hidden'>
+        <KitImage
+          loading='lazy'
+          alt={`Image ${currentIndex + 1}`}
+          width={800}
+          height={600}
+          src={images[currentIndex]}
+          className='w-full h-auto object-contain'
+        />
+      </div>
+
+      <button
+        onClick={goNext}
+        className='absolute right-5 text-white text-4xl  cursor-pointer  font-bold z-50 px-3 py-2'
+      >
+        &#8250;
+      </button>
+    </div>
+  );
+}; 

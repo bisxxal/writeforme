@@ -270,7 +270,7 @@ const ChatRoom: React.FC<Props> = ({ chatId, currentUserId }) => {
         )}
       </div>{
       }
-      <div className='relative  bg-[url(/bg.png)] bg-contain flex flex-col mt-[10px]  mx-auto max-w-2xl rounded-2xl max-md:border-none max-md:shadow-none border border-black/10 shadow-xl p-2  w-full max-md:h-[83vh] h-[80vh]'>
+      <div className='relative bg-[url(/bg.png)] bg-contain flex flex-col mt-[85px] flex justify-between pb-7 mx-auto max-w-2xl rounded-2xl max-md:border-none max-md:shadow-none border border-black/10 shadow-xl px-2  w-full max-md:h-[93vh] h-[80vh]'>
 
         {isFetchingNextPage && (
           <div className="loading-animation center text-center text-sm text-gray-400">

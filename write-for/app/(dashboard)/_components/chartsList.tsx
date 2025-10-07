@@ -32,8 +32,8 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
     const { onlineUser } = useSocket({ userId: userId }) as { socket: any; ready: boolean; onlineUser: string[] };
 
     return (
-        <div className='flex flex-col w-full'>
-            <p className='my-3 mt-4 pl-10 max-md:pl-2 textbase text-2xl font-semibold'>Chats</p>
+        <div className='flex flex-col w-full '>
+            <p className='my-3 mt-10 pl-10 max-md:pl-2 textbase text-2xl font-semibold'>Chats</p>
             {  !isLoading && chats?.length !== 0 ?
                 [...chats]
                     .sort((a, b) => {
@@ -50,7 +50,7 @@ const Charts = ({ chats, userId , isLoading }: { chats: ChartsProps, userId: str
                             <Link
                                 href={`/chat/${item.chatId}`}
                                 key={i}
-                                className='w-[95%] max-md:w-[98%] mx-auto rounded-3xl  card bordercolor center mb-3 shadow p-2 !justify-start '
+                                className='w-[95%]  max-md:w-[98%] mx-auto rounded-3xl  card bordercolor center mb-3 shadow p-2 !justify-start '
                             >
                                 {item.chat.participants
                                     .filter((participant) => participant.user.id !== userId)

@@ -33,12 +33,15 @@ const TaskPage = () => {
   })
 
   return (
-    <div className=' w-full px-10 max-md:px-4 pb-20'>
+    <div className=' w-full px-10 max-md:px-4 pb-20 mt-2'>
+
+      <p className='my-3 mt-10 mt-4 pl-10 max-md:pl-2 textbase text-2xl font-semibold'>My orders</p>
+
 
       <div className=' between '>
-        <div onClick={() => setActiveTab('all')} className={`${activeTab=== 'all' ? ' border-[#a860e3]  textbase font-medium ':" text-gray-400 border-gray-400 transition-all " } cursor-pointer  border-b-2 p-2 px-5  `}>All</div>
-        <div onClick={() => setActiveTab('pending')} className={`${activeTab=== 'pending' ? ' border-[#a860e3]  textbase font-medium':" text-gray-400 border-gray-400 transition-all " } cursor-pointer  border-b-2 p-2 px-5  `}>Pending</div>
-        <div onClick={() => setActiveTab('completed')} className={`${activeTab=== 'completed' ? ' border-[#a860e3]  textbase font-medium':" text-gray-400 border-gray-400 transition-all " } cursor-pointer  border-b-2 p-2 px-5  `}>Completed</div>
+        <div onClick={() => setActiveTab('all')} className={`${activeTab === 'all' ? ' border-[#a860e3]  textbase font-medium ' : " text-gray-400 border-gray-400 transition-all "} cursor-pointer  border-b-2 p-2 px-5  `}>All</div>
+        <div onClick={() => setActiveTab('pending')} className={`${activeTab === 'pending' ? ' border-[#a860e3]  textbase font-medium' : " text-gray-400 border-gray-400 transition-all "} cursor-pointer  border-b-2 p-2 px-5  `}>Pending</div>
+        <div onClick={() => setActiveTab('completed')} className={`${activeTab === 'completed' ? ' border-[#a860e3]  textbase font-medium' : " text-gray-400 border-gray-400 transition-all "} cursor-pointer  border-b-2 p-2 px-5  `}>Completed</div>
       </div>
       {
         activeTab === 'all' ? <AllTask data={data?.data} user={user?.user} /> : activeTab === 'pending' ? <PendingTask data={data?.data} user={user?.user} /> : <CompletedTask data={data?.data} user={user?.user} />
@@ -46,7 +49,7 @@ const TaskPage = () => {
       {
         isLoading && <Loading boxes={3} child='w-full h-full rounded-2xl' parent=' h-[650px] ' />
       }
-      { data?.data?.length === 0 && <p className=' text-center text-sm mt-20 opacity-[0.5] '>No Order found</p>}
+      {data?.data?.length === 0 && <p className=' text-center text-sm mt-20 opacity-[0.5] '>No Order found</p>}
     </div>
   )
 }

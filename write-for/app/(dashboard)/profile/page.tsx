@@ -52,7 +52,7 @@ const ProfilePage = () => {
   }, [data])
 
   return (
-    <div className=' w-full min-h-screen relative px-10  max-md:px-3 flex flex-col gap-5'>
+    <div className=' w-full min-h-screen relative px-10 mt-20 max-md:px-3 flex flex-col gap-5'>
 
       {showCollege && <div className='pt-[70px] fixed top-0 h-screen z-10 left-0 w-full bg-[#00000047] backdrop-blur-xl flex justify-center '>
         <CollageName showCollege={showCollege} setShowCollege={setShowCollege} />
